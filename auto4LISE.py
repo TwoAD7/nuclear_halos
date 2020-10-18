@@ -1,4 +1,5 @@
 import automation4LISE as a4l 
+import start_calls as strt 
 import os 
 #import platform
 
@@ -26,9 +27,9 @@ def main():
 	print("Beginning the automation for LISE++...")
 	res = input("Are you opening the program for the first time? (yes or no) ")
 	if res == "yes":
-		FP_slit_width,isotope_start,isotope_end,wedge_range=a4l.start()  
+		FP_slit_width,isotope_start,isotope_end,wedge_range=strt.start()  
 	else:
-		FP_slit_width,isotope_start,isotope_end,wedge_range=a4l.start2()
+		FP_slit_width,isotope_start,isotope_end,wedge_range=strt.start2()
 	a4l.isotope_tuning_values(FP_slit_width,isotope_start,isotope_end,wedge_range)
 
 main()
