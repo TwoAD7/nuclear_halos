@@ -1,5 +1,5 @@
 from nuclear_gamma_tracker import automation4LISE as a4l 
-import start_calls as strt 
+from nuclear_gamma_tracker import start_calls as strt 
 import os 
 #import platform
 
@@ -32,4 +32,5 @@ def main():
 		FP_slit_width,isotope_start,isotope_end,wedge_range=strt.start2()
 	a4l.isotope_tuning_values(FP_slit_width,isotope_start,isotope_end,wedge_range)
 
-main()
+if __name__ == "__main__":
+    main()
