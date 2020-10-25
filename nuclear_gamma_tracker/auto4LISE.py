@@ -1,4 +1,4 @@
-import automation4LISE as a4l 
+from nuclear_gamma_tracker import automation4LISE as a4l 
 import start_calls as strt 
 import os 
 #import platform
