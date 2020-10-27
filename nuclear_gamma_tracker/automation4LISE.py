@@ -26,10 +26,10 @@ import os
 import platform 
 
 
-pag.PAUSE=1
-pag.FAILSAFE=True
-width, height = pag.size()
-print(f"Scren size is: {width},{height}")
+#pag.PAUSE=1
+#pag.FAILSAFE=True
+#width, height = pag.size()
+#print(f"Scren size is: {width},{height}")
 
 
 
@@ -84,17 +84,40 @@ beam_info = {"O_16": {"Energy":150,"Intensity":175}, "O_18":{"Energy":120,"Inten
 
 """
 
+def hi():
+	print("hi")
 
-def _isotope_start():
+def _isotope_start(optional_input =""):
 	"""Summary
 
 	Function to collect the isotope you want to start with. Have to enter the isotpes as 'Mg_32', for example.
 	Currently, can only select between isotopes Mg_32 - Mg_40.
 	
 	"""
-	isotope_start= input("Which isotope would you like to start with? (Enter as 'Mg_32' for example.): ")
-	print(f"Starting with {isotope_start}...")
-	return isotope_start
+	while True:
+		try:
+			if len(optional_input) != 0: #check if we have input 
+				_check = int(optional_input)
+				raise ValueError
+				optional_input=input("Enter in isotope form ('Mg_32' for example) not integer number.")
+			if len(optional_input) == 0: #check if we don't have input 
+				isotope_start= input("Which isotope would you like to start with? (Enter as 'Mg_32' for example.): ")
+				check = int(isotope_start)
+				print("Enter in isotope form ('Mg_32' for example) not integer number.")
+		except ValueError: #if no optional input but user typed in correct input (Mg_32 or Mg_33 or ...), catch the Valueerror exception 
+			try:
+				check2 = float(isotope_start)
+				print("Enter in isotope form ('Mg_32' for example) not float number.")
+			except NameError: #if given optional input, catch it with this exception 
+				try:
+					_check2 = float(optional_input)
+					print("Enter in isotope form ('Mg_32' for example) not float number.")
+				except ValueError: #if we have correct input 
+					print(f"Starting with {optional_input}...")
+					return optional_input
+			except ValueError: #if not given optional input and we have correct input
+				print(f"Starting with {isotope_start}...")
+				return isotope_start
 
 def _isotope_end():
 	"""Summary: 
