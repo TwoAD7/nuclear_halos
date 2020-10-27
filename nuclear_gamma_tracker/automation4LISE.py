@@ -84,26 +84,49 @@ beam_info = {"O_16": {"Energy":150,"Intensity":175}, "O_18":{"Energy":120,"Inten
 
 
 def _isotope_start():
+	"""Summary
+
+	Function to collect the isotope you want to start with. Have to enter the isotpes as 'Mg_32', for example.
+	Currently, can only select between isotopes Mg_32 - Mg_40.
+	
+	"""
 	isotope_start= input("Which isotope would you like to start with? (Enter as 'Mg_32' for example.): ")
 	print(f"Starting with {isotope_start}...")
 	return isotope_start
 
 def _isotope_end():
+	"""Summary: 
+
+	Function to collect the isotope you want to end with. Have to enter the isotpes as 'Mg_32', for example. 
+	Currenlty, the furhtest you can go is Mg_40.
+	
+	"""
 	isotope_end= input("Which isotope would you like to end with? (Enter as 'Mg_36' for example.): ")
 	print(f"Ending with {isotope_end}...")
 	return isotope_end
 
-"""
-If program is not open, look for the program image on deskotp, and click on it. 
+def notes():
+	"""General Notes: 
 
-Note: Could improve by having it go directly to the LISE++.exe file and executing it. Could do this 
-with a shell script or here (in the python script).
+	If program is not open, look for the program image on deskotp, and click on it. 
 
-"""
+	Note: Could improve by having it go directly to the LISE++.exe file and executing it. Could do this 
+	with a shell script or here (in the python script).
+
+	"""
 
 #to set beam
 def set_projectile(projectile_name,energy,intensity,A):
-	"""Set the projectiles."""
+	"""Summary
+
+	Set the incoming projectile in LISE++ based on the projectiles name, energy, intensity, and atomic number (mass) A.
+	Passed in to the arguments in the following order: projectile_name, energy, intensity, A.
+
+	Current list of isotopes that can be used for target can be found at:
+	https://nscl.msu.edu/users/beams.html
+
+
+	"""
 	print("Setting projectile...")
 	pag.moveTo(16,124) #projectile button 
 	pag.click()
