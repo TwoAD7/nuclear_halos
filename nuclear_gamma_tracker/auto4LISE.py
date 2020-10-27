@@ -3,24 +3,11 @@ from nuclear_gamma_tracker import start_calls as strt
 import os 
 #import platform
 
-#interface to the automation script
 
 def main():
-
-	#Used to create the the "data.txt" and "pps_data.txt" prior to use.
-	#home = os.path.expanduser('~') #find your home directory 
 	"""
-	desktop = home + "\Desktop"
-
-	filename = desktop + "\data.txt"
-	f = open(filename,"w")
-	f.write("")
-	f.close()
-
-	_filename = desktop + "\pps_data.txt"
-	g = open(_filename,"w")
-	g.write("")
-	g.close()
+	Used to create the the "data.txt" and "pps_data.txt" prior to use.
+	Interface to the automation script
 	"""
 	
 	

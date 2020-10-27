@@ -1,16 +1,5 @@
-import time
-import pyautogui as pag  
-import matplotlib.pyplot as plt
-import pyperclip as pc 
-import pandas as pd 
-import numpy as np
-import csv
-import os 
-import platform 
-
 """
-Roy Salinas
-Module to control automation in LISE++ with NSCL configuration
+Module to control automation in LISE++ with NSCL configuration.
 
 Purpose: To retrive particular parameters from LISE++ such as beam intensity,
 beam purity, wedge thickness, wedge angle, momentum acceptance, focal
@@ -24,37 +13,22 @@ Currently, this is set up to only works with a Windows OS.
 
 """
 
-#path = os.path.expanduser("~\Desktop")
-#print(path)
+import time
+import pyautogui as pag  
+import matplotlib.pyplot as plt
+import pyperclip as pc 
+import pandas as pd 
+import numpy as np
+import csv
+import os 
+import platform 
 
-#check what system you are using
-""""
-useros = platform.system()
-if useros == "Linux":
-	print("Using a Linux OS...")
-	desktop = os.path.expanduser("~/Desktop")
-	print(f"Your desktop path is: {desktop}")
-elif useros == "Windows":
-	print("Using a Windows OS...")
-	home = os.path.expanduser('~') #find your home directory 
-	desktop = home + "\Desktop"
-	print(f"Your desktop path is {desktop}")
 
-"""
 pag.PAUSE=1
 pag.FAILSAFE=True
 width, height = pag.size()
 print(f"Scren size is: {width},{height}")
 
-
-#put the path to my desktop to reduce amounts of click
-def txt2csv(path): 
-	with open(path, 'r') as in_file:
-		stripped = (line.strip() for line in in_file)	#get rid of any spaces (by default)
-		lines = (line.split() for line in stripped if line) 
-		with open('junk.csv', 'w') as out_file:
-			writer = csv.writer(out_file)
-			writer.writerows(lines) #write each line
 
 
 """
@@ -129,6 +103,7 @@ with a shell script or here (in the python script).
 
 #to set beam
 def set_projectile(projectile_name,energy,intensity,A):
+	"""Set the projectiles."""
 	print("Setting projectile...")
 	pag.moveTo(16,124) #projectile button 
 	pag.click()
@@ -150,6 +125,7 @@ def set_projectile(projectile_name,energy,intensity,A):
 
 #to set the Focal Plane (FP) slits
 def set_FP_slits(slit_width):
+	"""Set FP slit."""
 	print("Setting FP_Slits...")
 	pag.moveTo(65,684) #move to slit button 
 	pag.click()
@@ -163,6 +139,7 @@ def set_FP_slits(slit_width):
 
 #to set the wedge thickness 
 def set_I2_wedge(wedge_thickness):
+	"""To set the wedge thickness."""
 	print("Setting I2_wedge...")
 	pag.moveTo(60,461) #move to wedge button 
 	pag.click()
@@ -193,12 +170,14 @@ def set_I2_wedge(wedge_thickness):
 	return str(angle)
 
 def tune_spectrometer():
+	"""Tune the spectrometer."""
 	print("Tuning spectrometer...")
 	pag.moveTo(335,78)
 	pag.click()
 	time.sleep(1)
 
 def set_fragment(fragment,A):
+	"""Setter."""
 	print("Setting fragment...")
 	pag.moveTo(20,170) #projectile button 
 	pag.click()
@@ -216,6 +195,7 @@ def set_fragment(fragment,A):
 
 #to retrive the thickness 
 def get_thickness():
+	"""Get thickness."""
 	target_thickness = 0
 	pc.copy("") #clear clipboard
 	print("Retrieving thickness...")
@@ -257,6 +237,7 @@ def get_thickness():
 
 #to retrive intensity
 def get_intensity(isotope,beam_element,beam_mass):
+	"""Get intensity."""
 	flag = False
 	print(isotope)
 	#get pixel location of isotope on screen
@@ -307,6 +288,7 @@ def get_intensity(isotope,beam_element,beam_mass):
 
 #retrieve the transmission in X-space 
 def FP_slit_X_transmission_percent():
+	"""Get that transmission."""
 	#NEED TO WORK ON THIS
 	print("Getting FP_Slits X space transmission...")
 	filename = str(desktop) + "\data.txt" #desktop comes from top of the sript.
@@ -317,6 +299,7 @@ def FP_slit_X_transmission_percent():
 	return FP_x_space_transmission[4] #percent value 
 
 def purity_percent(fragment_isotope):
+	"""How pure are you."""
 	print(f"Retrieving beam purity for {fragment_isotope}...")
 	pag.moveTo(832,83) #run all nucleo buttom (red lightning bolt)
 	pag.click()
@@ -372,8 +355,8 @@ def purity_percent(fragment_isotope):
 	percent =(float(float(frag_val))/total)*100.
 	return percent
 
-#This loop is used to find the best beam for each isotope. However, it has already been determined that the best beam is Ca 48.
 def isotope_loop():
+	"""Use to find the best beam for each isotope. However, it has already been determined that the best beam is Ca 48."""
 	beam_data = []
 	start = time.time()
 	df = pd.DataFrame(None) #create our data frame
@@ -415,6 +398,7 @@ def isotope_loop():
 
 #to "slice" an array of dictionaries and return slided array  
 def slice_array(arr,start):
+	"""Get me a slicer."""
 	new_array = []
 	index =0
 	for i,dic in enumerate(arr):
@@ -426,8 +410,8 @@ def slice_array(arr,start):
 		new_array.append(arr[t])
 	return new_array #return a sliced array containing dictionaries from starting isotope
 
-#function to find the best configuration using a Ca 48 beam
 def isotope_tuning_values(FP_slit_width,isotope_start,isotope_end,wedge_range):
+	"""To find the best configuration using a Ca 48 beam."""
 	set_projectile("Ca",140,80,48) #set the beam here with element name, energy, intensity, atomic number 
 	start = time.time()
 	set_FP_slits(FP_slit_width)
@@ -473,12 +457,14 @@ def isotope_tuning_values(FP_slit_width,isotope_start,isotope_end,wedge_range):
 	print(f"It took {(end-start)/60.0} minutes to run everything.")
 
 def save():
+	"""Saver."""
 	with open("thickness.txt","w") as file:
 		file.write(json.dumps(isotope_info))
 	file.close()
 
 #python 3 version 
 def show_pixels():
+	"""Show the pixel location on your screen."""
 	print('Press Ctrl-C to quit.')
 	try:
 		while True:
