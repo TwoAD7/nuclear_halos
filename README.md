@@ -20,13 +20,13 @@ the information you need.
 	- platform 
 	- time 
 
- If they are not installed, they can be installed via the following command in 
+* If they are not installed, they can be installed via the following command in 
  your windows terminal:
- 	> pip install MODULE (ex. pip install pyautogui)
- If that does not work, try the following:
- 	 > py -m pip install MODULE 
- If you do not have pip installed, proceed to the following link to donwload pip:
-	 > https://phoenixnap.com/kb/install-pip-windows
+ 	pip install MODULE (ex. pip install pyautogui)
+* If that does not work, try the following:
+	py -m pip install MODULE 
+* If you do not have pip installed, proceed to the following link to donwload pip:
+	https://phoenixnap.com/kb/install-pip-windows
 
 * There are two scripts required to produce the .csv files with configuration information: 
 	- automation4LISE.py 
