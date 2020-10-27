@@ -1,5 +1,7 @@
-"""
-Module to control automation in LISE++ with NSCL configuration.
+"""Summary
+
+Module to control automation in LISE++ with NSCL configuration file.
+The implementation of the FRIB configuration file is yet to be developed.
 
 Purpose: To retrive particular parameters from LISE++ such as beam intensity,
 beam purity, wedge thickness, wedge angle, momentum acceptance, focal
@@ -98,7 +100,7 @@ def _isotope_end():
 	"""Summary: 
 
 	Function to collect the isotope you want to end with. Have to enter the isotpes as 'Mg_32', for example. 
-	Currenlty, the furhtest you can go is Mg_40.
+	Currenlty, the furthest you can go is Mg_40.
 	
 	"""
 	isotope_end= input("Which isotope would you like to end with? (Enter as 'Mg_36' for example.): ")
@@ -115,7 +117,6 @@ def notes():
 
 	"""
 
-#to set beam
 def set_projectile(projectile_name,energy,intensity,A):
 	"""Summary
 
@@ -124,7 +125,6 @@ def set_projectile(projectile_name,energy,intensity,A):
 
 	Current list of isotopes that can be used for target can be found at:
 	https://nscl.msu.edu/users/beams.html
-
 
 	"""
 	print("Setting projectile...")
@@ -148,7 +148,13 @@ def set_projectile(projectile_name,energy,intensity,A):
 
 #to set the Focal Plane (FP) slits
 def set_FP_slits(slit_width):
-	"""Set FP slit."""
+	"""Summary
+	
+	Sets the the distance of the focal plane slits. The slit_width is passed in as the argument. 
+	Important to set the appropriate Focal Plane (FP) slits to be able to achieve a compromise
+	between the purity of the beam and yield.
+
+	"""
 	print("Setting FP_Slits...")
 	pag.moveTo(65,684) #move to slit button 
 	pag.click()
@@ -162,7 +168,13 @@ def set_FP_slits(slit_width):
 
 #to set the wedge thickness 
 def set_I2_wedge(wedge_thickness):
-	"""To set the wedge thickness."""
+	"""Summary
+
+	Use to set the thickness of the wedge at the second image plane 'I2'. Important due to the magnets 
+	adjusting to the wedge with the appropriate Brho value to maximize the transmission of the fragment 
+	you are interested and reduce the amount of contaminants.
+
+	"""
 	print("Setting I2_wedge...")
 	pag.moveTo(60,461) #move to wedge button 
 	pag.click()
@@ -193,14 +205,19 @@ def set_I2_wedge(wedge_thickness):
 	return str(angle)
 
 def tune_spectrometer():
-	"""Tune the spectrometer."""
+	"""Tune the overall spectrometer to optimize transmission."""
 	print("Tuning spectrometer...")
 	pag.moveTo(335,78)
 	pag.click()
 	time.sleep(1)
 
 def set_fragment(fragment,A):
-	"""Setter."""
+	"""Summary
+
+	Set the fragment you are interested in studying. Pass in the name of the fragment and mass number A.
+	This is handled automatically in the loop, no need to set it yourself (besided debugging/upgrading reasons).
+
+	"""
 	print("Setting fragment...")
 	pag.moveTo(20,170) #projectile button 
 	pag.click()
@@ -218,7 +235,7 @@ def set_fragment(fragment,A):
 
 #to retrive the thickness 
 def get_thickness():
-	"""Get thickness."""
+	"""To retrive the thickness of the target after optmizing. Optimizing is done by LISE++."""
 	target_thickness = 0
 	pc.copy("") #clear clipboard
 	print("Retrieving thickness...")
@@ -311,7 +328,11 @@ def get_intensity(isotope,beam_element,beam_mass):
 
 #retrieve the transmission in X-space 
 def FP_slit_X_transmission_percent():
-	"""Get that transmission."""
+	"""Summary
+
+	Retrieve the transmission percent in the x direction at the focal plane. Incoming beam looks 'Gaussian' but 
+	there is very litter dispersion in y direction.
+	"""
 	#NEED TO WORK ON THIS
 	print("Getting FP_Slits X space transmission...")
 	filename = str(desktop) + "\data.txt" #desktop comes from top of the sript.
@@ -322,7 +343,11 @@ def FP_slit_X_transmission_percent():
 	return FP_x_space_transmission[4] #percent value 
 
 def purity_percent(fragment_isotope):
-	"""How pure are you."""
+	"""Summary
+	
+	Retrieve the overall purity for the fragment you are studying after passinng through FP_PIN (focal plane Particle in).
+	
+	"""
 	print(f"Retrieving beam purity for {fragment_isotope}...")
 	pag.moveTo(832,83) #run all nucleo buttom (red lightning bolt)
 	pag.click()
@@ -418,10 +443,13 @@ def isotope_loop():
 	print(f"It took {end-start} to run everything.")
 
 
-
-#to "slice" an array of dictionaries and return slided array  
 def slice_array(arr,start):
-	"""Get me a slicer."""
+	"""Summary
+
+	To "slice" an array of dictionaries and return sliced array.
+
+	Function to slice an array. Pass in the array and where you want to beginn slicing from. 
+	"""
 	new_array = []
 	index =0
 	for i,dic in enumerate(arr):
@@ -480,14 +508,14 @@ def isotope_tuning_values(FP_slit_width,isotope_start,isotope_end,wedge_range):
 	print(f"It took {(end-start)/60.0} minutes to run everything.")
 
 def save():
-	"""Saver."""
+	"""Save the thickness to a text file."""
 	with open("thickness.txt","w") as file:
 		file.write(json.dumps(isotope_info))
 	file.close()
 
 #python 3 version 
 def show_pixels():
-	"""Show the pixel location on your screen."""
+	"""Show the pixel location on your screen as you move your cursor."""
 	print('Press Ctrl-C to quit.')
 	try:
 		while True:
