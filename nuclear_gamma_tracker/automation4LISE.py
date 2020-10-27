@@ -205,7 +205,7 @@ def set_I2_wedge(wedge_thickness):
 	return str(angle)
 
 def tune_spectrometer():
-	"""Tune the overall spectrometer to optimize transmission."""
+	"""Tune the overall spectrometer to optimize transmission. Done by LISE++."""
 	print("Tuning spectrometer...")
 	pag.moveTo(335,78)
 	pag.click()
@@ -277,7 +277,11 @@ def get_thickness():
 
 #to retrive intensity
 def get_intensity(isotope,beam_element,beam_mass):
-	"""Get intensity."""
+	"""Summary
+
+	Retrieve the intensity based on the isotope you are interested in, the beam isotope (element) you are using, and the mass number 
+	for the beam element.
+	"""
 	flag = False
 	print(isotope)
 	#get pixel location of isotope on screen
@@ -345,7 +349,7 @@ def FP_slit_X_transmission_percent():
 def purity_percent(fragment_isotope):
 	"""Summary
 	
-	Retrieve the overall purity for the fragment you are studying after passinng through FP_PIN (focal plane Particle in).
+	Retrieve the overall purity for the fragment you are studying after passinng through the FP_PIN (focal plane Particle in) detector.
 	
 	"""
 	print(f"Retrieving beam purity for {fragment_isotope}...")

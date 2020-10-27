@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.9.1" />
 <title>nuclear_gamma_tracker.automation4LISE API documentation</title>
-<meta name="description" content="Module to control automation in LISE++ with NSCL configuration …" />
+<meta name="description" content="Summary …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -22,7 +22,9 @@
 <h1 class="title">Module <code>nuclear_gamma_tracker.automation4LISE</code></h1>
 </header>
 <section id="section-intro">
-<p>Module to control automation in LISE++ with NSCL configuration.</p>
+<p>Summary</p>
+<p>Module to control automation in LISE++ with NSCL configuration file.
+The implementation of the FRIB configuration file is yet to be developed.</p>
 <p>Purpose: To retrive particular parameters from LISE++ such as beam intensity,
 beam purity, wedge thickness, wedge angle, momentum acceptance, focal
 plane slit width, and Image 2 slit width. </p>
@@ -33,8 +35,10 @@ plane slit width, and Image 2 slit width. </p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">&#34;&#34;&#34;
-Module to control automation in LISE++ with NSCL configuration.
+<pre><code class="python">&#34;&#34;&#34;Summary
+
+Module to control automation in LISE++ with NSCL configuration file.
+The implementation of the FRIB configuration file is yet to be developed.
 
 Purpose: To retrive particular parameters from LISE++ such as beam intensity,
 beam purity, wedge thickness, wedge angle, momentum acceptance, focal
@@ -119,26 +123,47 @@ beam_info = {&#34;O_16&#34;: {&#34;Energy&#34;:150,&#34;Intensity&#34;:175}, &#3
 
 
 def _isotope_start():
+        &#34;&#34;&#34;Summary
+
+        Function to collect the isotope you want to start with. Have to enter the isotpes as &#39;Mg_32&#39;, for example.
+        Currently, can only select between isotopes Mg_32 - Mg_40.
+        
+        &#34;&#34;&#34;
         isotope_start= input(&#34;Which isotope would you like to start with? (Enter as &#39;Mg_32&#39; for example.): &#34;)
         print(f&#34;Starting with {isotope_start}...&#34;)
         return isotope_start
 
 def _isotope_end():
+        &#34;&#34;&#34;Summary: 
+
+        Function to collect the isotope you want to end with. Have to enter the isotpes as &#39;Mg_32&#39;, for example. 
+        Currenlty, the furthest you can go is Mg_40.
+        
+        &#34;&#34;&#34;
         isotope_end= input(&#34;Which isotope would you like to end with? (Enter as &#39;Mg_36&#39; for example.): &#34;)
         print(f&#34;Ending with {isotope_end}...&#34;)
         return isotope_end
 
-&#34;&#34;&#34;
-If program is not open, look for the program image on deskotp, and click on it. 
+def notes():
+        &#34;&#34;&#34;General Notes: 
 
-Note: Could improve by having it go directly to the LISE++.exe file and executing it. Could do this 
-with a shell script or here (in the python script).
+        If program is not open, look for the program image on deskotp, and click on it. 
 
-&#34;&#34;&#34;
+        Note: Could improve by having it go directly to the LISE++.exe file and executing it. Could do this 
+        with a shell script or here (in the python script).
 
-#to set beam
+        &#34;&#34;&#34;
+
 def set_projectile(projectile_name,energy,intensity,A):
-        &#34;&#34;&#34;Set the projectiles.&#34;&#34;&#34;
+        &#34;&#34;&#34;Summary
+
+        Set the incoming projectile in LISE++ based on the projectiles name, energy, intensity, and atomic number (mass) A.
+        Passed in to the arguments in the following order: projectile_name, energy, intensity, A.
+
+        Current list of isotopes that can be used for target can be found at:
+        https://nscl.msu.edu/users/beams.html
+
+        &#34;&#34;&#34;
         print(&#34;Setting projectile...&#34;)
         pag.moveTo(16,124) #projectile button 
         pag.click()
@@ -160,7 +185,13 @@ def set_projectile(projectile_name,energy,intensity,A):
 
 #to set the Focal Plane (FP) slits
 def set_FP_slits(slit_width):
-        &#34;&#34;&#34;Set FP slit.&#34;&#34;&#34;
+        &#34;&#34;&#34;Summary
+        
+        Sets the the distance of the focal plane slits. The slit_width is passed in as the argument. 
+        Important to set the appropriate Focal Plane (FP) slits to be able to achieve a compromise
+        between the purity of the beam and yield.
+
+        &#34;&#34;&#34;
         print(&#34;Setting FP_Slits...&#34;)
         pag.moveTo(65,684) #move to slit button 
         pag.click()
@@ -174,7 +205,13 @@ def set_FP_slits(slit_width):
 
 #to set the wedge thickness 
 def set_I2_wedge(wedge_thickness):
-        &#34;&#34;&#34;To set the wedge thickness.&#34;&#34;&#34;
+        &#34;&#34;&#34;Summary
+
+        Use to set the thickness of the wedge at the second image plane &#39;I2&#39;. Important due to the magnets 
+        adjusting to the wedge with the appropriate Brho value to maximize the transmission of the fragment 
+        you are interested and reduce the amount of contaminants.
+
+        &#34;&#34;&#34;
         print(&#34;Setting I2_wedge...&#34;)
         pag.moveTo(60,461) #move to wedge button 
         pag.click()
@@ -205,14 +242,19 @@ def set_I2_wedge(wedge_thickness):
         return str(angle)
 
 def tune_spectrometer():
-        &#34;&#34;&#34;Tune the spectrometer.&#34;&#34;&#34;
+        &#34;&#34;&#34;Tune the overall spectrometer to optimize transmission. Done by LISE++.&#34;&#34;&#34;
         print(&#34;Tuning spectrometer...&#34;)
         pag.moveTo(335,78)
         pag.click()
         time.sleep(1)
 
 def set_fragment(fragment,A):
-        &#34;&#34;&#34;Setter.&#34;&#34;&#34;
+        &#34;&#34;&#34;Summary
+
+        Set the fragment you are interested in studying. Pass in the name of the fragment and mass number A.
+        This is handled automatically in the loop, no need to set it yourself (besided debugging/upgrading reasons).
+
+        &#34;&#34;&#34;
         print(&#34;Setting fragment...&#34;)
         pag.moveTo(20,170) #projectile button 
         pag.click()
@@ -230,7 +272,7 @@ def set_fragment(fragment,A):
 
 #to retrive the thickness 
 def get_thickness():
-        &#34;&#34;&#34;Get thickness.&#34;&#34;&#34;
+        &#34;&#34;&#34;To retrive the thickness of the target after optmizing. Optimizing is done by LISE++.&#34;&#34;&#34;
         target_thickness = 0
         pc.copy(&#34;&#34;) #clear clipboard
         print(&#34;Retrieving thickness...&#34;)
@@ -272,7 +314,11 @@ def get_thickness():
 
 #to retrive intensity
 def get_intensity(isotope,beam_element,beam_mass):
-        &#34;&#34;&#34;Get intensity.&#34;&#34;&#34;
+        &#34;&#34;&#34;Summary
+
+        Retrieve the intensity based on the isotope you are interested in, the beam isotope (element) you are using, and the mass number 
+        for the beam element.
+        &#34;&#34;&#34;
         flag = False
         print(isotope)
         #get pixel location of isotope on screen
@@ -323,7 +369,11 @@ def get_intensity(isotope,beam_element,beam_mass):
 
 #retrieve the transmission in X-space 
 def FP_slit_X_transmission_percent():
-        &#34;&#34;&#34;Get that transmission.&#34;&#34;&#34;
+        &#34;&#34;&#34;Summary
+
+        Retrieve the transmission percent in the x direction at the focal plane. Incoming beam looks &#39;Gaussian&#39; but 
+        there is very litter dispersion in y direction.
+        &#34;&#34;&#34;
         #NEED TO WORK ON THIS
         print(&#34;Getting FP_Slits X space transmission...&#34;)
         filename = str(desktop) + &#34;\data.txt&#34; #desktop comes from top of the sript.
@@ -334,7 +384,11 @@ def FP_slit_X_transmission_percent():
         return FP_x_space_transmission[4] #percent value 
 
 def purity_percent(fragment_isotope):
-        &#34;&#34;&#34;How pure are you.&#34;&#34;&#34;
+        &#34;&#34;&#34;Summary
+        
+        Retrieve the overall purity for the fragment you are studying after passinng through the FP_PIN (focal plane Particle in) detector.
+        
+        &#34;&#34;&#34;
         print(f&#34;Retrieving beam purity for {fragment_isotope}...&#34;)
         pag.moveTo(832,83) #run all nucleo buttom (red lightning bolt)
         pag.click()
@@ -430,10 +484,13 @@ def isotope_loop():
         print(f&#34;It took {end-start} to run everything.&#34;)
 
 
-
-#to &#34;slice&#34; an array of dictionaries and return slided array  
 def slice_array(arr,start):
-        &#34;&#34;&#34;Get me a slicer.&#34;&#34;&#34;
+        &#34;&#34;&#34;Summary
+
+        To &#34;slice&#34; an array of dictionaries and return sliced array.
+
+        Function to slice an array. Pass in the array and where you want to beginn slicing from. 
+        &#34;&#34;&#34;
         new_array = []
         index =0
         for i,dic in enumerate(arr):
@@ -492,14 +549,14 @@ def isotope_tuning_values(FP_slit_width,isotope_start,isotope_end,wedge_range):
         print(f&#34;It took {(end-start)/60.0} minutes to run everything.&#34;)
 
 def save():
-        &#34;&#34;&#34;Saver.&#34;&#34;&#34;
+        &#34;&#34;&#34;Save the thickness to a text file.&#34;&#34;&#34;
         with open(&#34;thickness.txt&#34;,&#34;w&#34;) as file:
                 file.write(json.dumps(isotope_info))
         file.close()
 
 #python 3 version 
 def show_pixels():
-        &#34;&#34;&#34;Show the pixel location on your screen.&#34;&#34;&#34;
+        &#34;&#34;&#34;Show the pixel location on your screen as you move your cursor.&#34;&#34;&#34;
         print(&#39;Press Ctrl-C to quit.&#39;)
         try:
                 while True:
@@ -543,13 +600,19 @@ Using zeros as place holders for intialization.</p></div>
 <span>def <span class="ident">FP_slit_X_transmission_percent</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Get that transmission.</p></div>
+<div class="desc"><p>Summary</p>
+<p>Retrieve the transmission percent in the x direction at the focal plane. Incoming beam looks 'Gaussian' but
+there is very litter dispersion in y direction.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def FP_slit_X_transmission_percent():
-        &#34;&#34;&#34;Get that transmission.&#34;&#34;&#34;
+        &#34;&#34;&#34;Summary
+
+        Retrieve the transmission percent in the x direction at the focal plane. Incoming beam looks &#39;Gaussian&#39; but 
+        there is very litter dispersion in y direction.
+        &#34;&#34;&#34;
         #NEED TO WORK ON THIS
         print(&#34;Getting FP_Slits X space transmission...&#34;)
         filename = str(desktop) + &#34;\data.txt&#34; #desktop comes from top of the sript.
@@ -564,13 +627,19 @@ Using zeros as place holders for intialization.</p></div>
 <span>def <span class="ident">get_intensity</span></span>(<span>isotope, beam_element, beam_mass)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Get intensity.</p></div>
+<div class="desc"><p>Summary</p>
+<p>Retrieve the intensity based on the isotope you are interested in, the beam isotope (element) you are using, and the mass number
+for the beam element.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def get_intensity(isotope,beam_element,beam_mass):
-        &#34;&#34;&#34;Get intensity.&#34;&#34;&#34;
+        &#34;&#34;&#34;Summary
+
+        Retrieve the intensity based on the isotope you are interested in, the beam isotope (element) you are using, and the mass number 
+        for the beam element.
+        &#34;&#34;&#34;
         flag = False
         print(isotope)
         #get pixel location of isotope on screen
@@ -624,13 +693,13 @@ Using zeros as place holders for intialization.</p></div>
 <span>def <span class="ident">get_thickness</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Get thickness.</p></div>
+<div class="desc"><p>To retrive the thickness of the target after optmizing. Optimizing is done by LISE++.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def get_thickness():
-        &#34;&#34;&#34;Get thickness.&#34;&#34;&#34;
+        &#34;&#34;&#34;To retrive the thickness of the target after optmizing. Optimizing is done by LISE++.&#34;&#34;&#34;
         target_thickness = 0
         pc.copy(&#34;&#34;) #clear clipboard
         print(&#34;Retrieving thickness...&#34;)
@@ -776,17 +845,45 @@ Using zeros as place holders for intialization.</p></div>
         print(f&#34;It took {(end-start)/60.0} minutes to run everything.&#34;)</code></pre>
 </details>
 </dd>
+<dt id="nuclear_gamma_tracker.automation4LISE.notes"><code class="name flex">
+<span>def <span class="ident">notes</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>General Notes: </p>
+<p>If program is not open, look for the program image on deskotp, and click on it. </p>
+<p>Note: Could improve by having it go directly to the LISE++.exe file and executing it. Could do this
+with a shell script or here (in the python script).</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def notes():
+        &#34;&#34;&#34;General Notes: 
+
+        If program is not open, look for the program image on deskotp, and click on it. 
+
+        Note: Could improve by having it go directly to the LISE++.exe file and executing it. Could do this 
+        with a shell script or here (in the python script).
+
+        &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
 <dt id="nuclear_gamma_tracker.automation4LISE.purity_percent"><code class="name flex">
 <span>def <span class="ident">purity_percent</span></span>(<span>fragment_isotope)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>How pure are you.</p></div>
+<div class="desc"><p>Summary</p>
+<p>Retrieve the overall purity for the fragment you are studying after passinng through the FP_PIN (focal plane Particle in) detector.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def purity_percent(fragment_isotope):
-        &#34;&#34;&#34;How pure are you.&#34;&#34;&#34;
+        &#34;&#34;&#34;Summary
+        
+        Retrieve the overall purity for the fragment you are studying after passinng through the FP_PIN (focal plane Particle in) detector.
+        
+        &#34;&#34;&#34;
         print(f&#34;Retrieving beam purity for {fragment_isotope}...&#34;)
         pag.moveTo(832,83) #run all nucleo buttom (red lightning bolt)
         pag.click()
@@ -847,13 +944,13 @@ Using zeros as place holders for intialization.</p></div>
 <span>def <span class="ident">save</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Saver.</p></div>
+<div class="desc"><p>Save the thickness to a text file.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def save():
-        &#34;&#34;&#34;Saver.&#34;&#34;&#34;
+        &#34;&#34;&#34;Save the thickness to a text file.&#34;&#34;&#34;
         with open(&#34;thickness.txt&#34;,&#34;w&#34;) as file:
                 file.write(json.dumps(isotope_info))
         file.close()</code></pre>
@@ -863,13 +960,22 @@ Using zeros as place holders for intialization.</p></div>
 <span>def <span class="ident">set_FP_slits</span></span>(<span>slit_width)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Set FP slit.</p></div>
+<div class="desc"><p>Summary</p>
+<p>Sets the the distance of the focal plane slits. The slit_width is passed in as the argument.
+Important to set the appropriate Focal Plane (FP) slits to be able to achieve a compromise
+between the purity of the beam and yield.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def set_FP_slits(slit_width):
-        &#34;&#34;&#34;Set FP slit.&#34;&#34;&#34;
+        &#34;&#34;&#34;Summary
+        
+        Sets the the distance of the focal plane slits. The slit_width is passed in as the argument. 
+        Important to set the appropriate Focal Plane (FP) slits to be able to achieve a compromise
+        between the purity of the beam and yield.
+
+        &#34;&#34;&#34;
         print(&#34;Setting FP_Slits...&#34;)
         pag.moveTo(65,684) #move to slit button 
         pag.click()
@@ -886,13 +992,22 @@ Using zeros as place holders for intialization.</p></div>
 <span>def <span class="ident">set_I2_wedge</span></span>(<span>wedge_thickness)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>To set the wedge thickness.</p></div>
+<div class="desc"><p>Summary</p>
+<p>Use to set the thickness of the wedge at the second image plane 'I2'. Important due to the magnets
+adjusting to the wedge with the appropriate Brho value to maximize the transmission of the fragment
+you are interested and reduce the amount of contaminants.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def set_I2_wedge(wedge_thickness):
-        &#34;&#34;&#34;To set the wedge thickness.&#34;&#34;&#34;
+        &#34;&#34;&#34;Summary
+
+        Use to set the thickness of the wedge at the second image plane &#39;I2&#39;. Important due to the magnets 
+        adjusting to the wedge with the appropriate Brho value to maximize the transmission of the fragment 
+        you are interested and reduce the amount of contaminants.
+
+        &#34;&#34;&#34;
         print(&#34;Setting I2_wedge...&#34;)
         pag.moveTo(60,461) #move to wedge button 
         pag.click()
@@ -927,13 +1042,20 @@ Using zeros as place holders for intialization.</p></div>
 <span>def <span class="ident">set_fragment</span></span>(<span>fragment, A)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Setter.</p></div>
+<div class="desc"><p>Summary</p>
+<p>Set the fragment you are interested in studying. Pass in the name of the fragment and mass number A.
+This is handled automatically in the loop, no need to set it yourself (besided debugging/upgrading reasons).</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def set_fragment(fragment,A):
-        &#34;&#34;&#34;Setter.&#34;&#34;&#34;
+        &#34;&#34;&#34;Summary
+
+        Set the fragment you are interested in studying. Pass in the name of the fragment and mass number A.
+        This is handled automatically in the loop, no need to set it yourself (besided debugging/upgrading reasons).
+
+        &#34;&#34;&#34;
         print(&#34;Setting fragment...&#34;)
         pag.moveTo(20,170) #projectile button 
         pag.click()
@@ -954,13 +1076,25 @@ Using zeros as place holders for intialization.</p></div>
 <span>def <span class="ident">set_projectile</span></span>(<span>projectile_name, energy, intensity, A)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Set the projectiles.</p></div>
+<div class="desc"><p>Summary</p>
+<p>Set the incoming projectile in LISE++ based on the projectiles name, energy, intensity, and atomic number (mass) A.
+Passed in to the arguments in the following order: projectile_name, energy, intensity, A.</p>
+<p>Current list of isotopes that can be used for target can be found at:
+<a href="https://nscl.msu.edu/users/beams.html">https://nscl.msu.edu/users/beams.html</a></p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def set_projectile(projectile_name,energy,intensity,A):
-        &#34;&#34;&#34;Set the projectiles.&#34;&#34;&#34;
+        &#34;&#34;&#34;Summary
+
+        Set the incoming projectile in LISE++ based on the projectiles name, energy, intensity, and atomic number (mass) A.
+        Passed in to the arguments in the following order: projectile_name, energy, intensity, A.
+
+        Current list of isotopes that can be used for target can be found at:
+        https://nscl.msu.edu/users/beams.html
+
+        &#34;&#34;&#34;
         print(&#34;Setting projectile...&#34;)
         pag.moveTo(16,124) #projectile button 
         pag.click()
@@ -985,13 +1119,13 @@ Using zeros as place holders for intialization.</p></div>
 <span>def <span class="ident">show_pixels</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Show the pixel location on your screen.</p></div>
+<div class="desc"><p>Show the pixel location on your screen as you move your cursor.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def show_pixels():
-        &#34;&#34;&#34;Show the pixel location on your screen.&#34;&#34;&#34;
+        &#34;&#34;&#34;Show the pixel location on your screen as you move your cursor.&#34;&#34;&#34;
         print(&#39;Press Ctrl-C to quit.&#39;)
         try:
                 while True:
@@ -1007,13 +1141,20 @@ Using zeros as place holders for intialization.</p></div>
 <span>def <span class="ident">slice_array</span></span>(<span>arr, start)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Get me a slicer.</p></div>
+<div class="desc"><p>Summary</p>
+<p>To "slice" an array of dictionaries and return sliced array.</p>
+<p>Function to slice an array. Pass in the array and where you want to beginn slicing from.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def slice_array(arr,start):
-        &#34;&#34;&#34;Get me a slicer.&#34;&#34;&#34;
+        &#34;&#34;&#34;Summary
+
+        To &#34;slice&#34; an array of dictionaries and return sliced array.
+
+        Function to slice an array. Pass in the array and where you want to beginn slicing from. 
+        &#34;&#34;&#34;
         new_array = []
         index =0
         for i,dic in enumerate(arr):
@@ -1030,13 +1171,13 @@ Using zeros as place holders for intialization.</p></div>
 <span>def <span class="ident">tune_spectrometer</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Tune the spectrometer.</p></div>
+<div class="desc"><p>Tune the overall spectrometer to optimize transmission. Done by LISE++.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def tune_spectrometer():
-        &#34;&#34;&#34;Tune the spectrometer.&#34;&#34;&#34;
+        &#34;&#34;&#34;Tune the overall spectrometer to optimize transmission. Done by LISE++.&#34;&#34;&#34;
         print(&#34;Tuning spectrometer...&#34;)
         pag.moveTo(335,78)
         pag.click()
@@ -1072,6 +1213,7 @@ Using zeros as place holders for intialization.</p></div>
 <li><code><a title="nuclear_gamma_tracker.automation4LISE.get_thickness" href="#nuclear_gamma_tracker.automation4LISE.get_thickness">get_thickness</a></code></li>
 <li><code><a title="nuclear_gamma_tracker.automation4LISE.isotope_loop" href="#nuclear_gamma_tracker.automation4LISE.isotope_loop">isotope_loop</a></code></li>
 <li><code><a title="nuclear_gamma_tracker.automation4LISE.isotope_tuning_values" href="#nuclear_gamma_tracker.automation4LISE.isotope_tuning_values">isotope_tuning_values</a></code></li>
+<li><code><a title="nuclear_gamma_tracker.automation4LISE.notes" href="#nuclear_gamma_tracker.automation4LISE.notes">notes</a></code></li>
 <li><code><a title="nuclear_gamma_tracker.automation4LISE.purity_percent" href="#nuclear_gamma_tracker.automation4LISE.purity_percent">purity_percent</a></code></li>
 <li><code><a title="nuclear_gamma_tracker.automation4LISE.save" href="#nuclear_gamma_tracker.automation4LISE.save">save</a></code></li>
 <li><code><a title="nuclear_gamma_tracker.automation4LISE.set_FP_slits" href="#nuclear_gamma_tracker.automation4LISE.set_FP_slits">set_FP_slits</a></code></li>
