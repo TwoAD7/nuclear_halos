@@ -1,3 +1,17 @@
+"""Summary
+
+Start calls to start the program. Will prompt user to answer if LISE++ is running 
+already with the GUI open. If not, answer "no" and it will locate the image 
+on your desktop and open it.
+
+NOTE
+Could be useful to update this to locate LISE++.exe and run the executable 
+instead of looking for the logo for startup.
+
+
+"""
+
+
 def start():
 	ans = input("Do you want to start from a particular isotope? (yes or no): ")
 	if ans == "yes" or ans =="YES" or ans == "Yes":

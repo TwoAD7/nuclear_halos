@@ -475,7 +475,7 @@ def slice_array(arr,start):
 
 	To "slice" an array of dictionaries and return sliced array.
 
-	Function to slice an array. Pass in the array and where you want to beginn slicing from. 
+	Function to slice an array. Pass in the array and where you want to begin slicing from. 
 	"""
 	new_array = []
 	index =0
