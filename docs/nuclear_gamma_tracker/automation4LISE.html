@@ -63,10 +63,10 @@ import os
 import platform 
 
 
-pag.PAUSE=1
-pag.FAILSAFE=True
-width, height = pag.size()
-print(f&#34;Scren size is: {width},{height}&#34;)
+#pag.PAUSE=1
+#pag.FAILSAFE=True
+#width, height = pag.size()
+#print(f&#34;Scren size is: {width},{height}&#34;)
 
 
 
@@ -121,17 +121,40 @@ beam_info = {&#34;O_16&#34;: {&#34;Energy&#34;:150,&#34;Intensity&#34;:175}, &#3
 
 &#34;&#34;&#34;
 
+def hi():
+        print(&#34;hi&#34;)
 
-def _isotope_start():
+def _isotope_start(optional_input =&#34;&#34;):
         &#34;&#34;&#34;Summary
 
         Function to collect the isotope you want to start with. Have to enter the isotpes as &#39;Mg_32&#39;, for example.
         Currently, can only select between isotopes Mg_32 - Mg_40.
         
         &#34;&#34;&#34;
-        isotope_start= input(&#34;Which isotope would you like to start with? (Enter as &#39;Mg_32&#39; for example.): &#34;)
-        print(f&#34;Starting with {isotope_start}...&#34;)
-        return isotope_start
+        while True:
+                try:
+                        if len(optional_input) != 0: #check if we have input 
+                                _check = int(optional_input)
+                                raise ValueError
+                                optional_input=input(&#34;Enter in isotope form (&#39;Mg_32&#39; for example) not integer number.&#34;)
+                        if len(optional_input) == 0: #check if we don&#39;t have input 
+                                isotope_start= input(&#34;Which isotope would you like to start with? (Enter as &#39;Mg_32&#39; for example.): &#34;)
+                                check = int(isotope_start)
+                                print(&#34;Enter in isotope form (&#39;Mg_32&#39; for example) not integer number.&#34;)
+                except ValueError: #if no optional input but user typed in correct input (Mg_32 or Mg_33 or ...), catch the Valueerror exception 
+                        try:
+                                check2 = float(isotope_start)
+                                print(&#34;Enter in isotope form (&#39;Mg_32&#39; for example) not float number.&#34;)
+                        except NameError: #if given optional input, catch it with this exception 
+                                try:
+                                        _check2 = float(optional_input)
+                                        print(&#34;Enter in isotope form (&#39;Mg_32&#39; for example) not float number.&#34;)
+                                except ValueError: #if we have correct input 
+                                        print(f&#34;Starting with {optional_input}...&#34;)
+                                        return optional_input
+                        except ValueError: #if not given optional input and we have correct input
+                                print(f&#34;Starting with {isotope_start}...&#34;)
+                                return isotope_start
 
 def _isotope_end():
         &#34;&#34;&#34;Summary: 
@@ -489,7 +512,7 @@ def slice_array(arr,start):
 
         To &#34;slice&#34; an array of dictionaries and return sliced array.
 
-        Function to slice an array. Pass in the array and where you want to beginn slicing from. 
+        Function to slice an array. Pass in the array and where you want to begin slicing from. 
         &#34;&#34;&#34;
         new_array = []
         index =0
@@ -738,6 +761,19 @@ for the beam element.</p></div>
         pag.moveTo(456,459) #ok button to close
         pag.click()
         return target_thickness </code></pre>
+</details>
+</dd>
+<dt id="nuclear_gamma_tracker.automation4LISE.hi"><code class="name flex">
+<span>def <span class="ident">hi</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def hi():
+        print(&#34;hi&#34;)</code></pre>
 </details>
 </dd>
 <dt id="nuclear_gamma_tracker.automation4LISE.isotope_loop"><code class="name flex">
@@ -1143,7 +1179,7 @@ Passed in to the arguments in the following order: projectile_name, energy, inte
 <dd>
 <div class="desc"><p>Summary</p>
 <p>To "slice" an array of dictionaries and return sliced array.</p>
-<p>Function to slice an array. Pass in the array and where you want to beginn slicing from.</p></div>
+<p>Function to slice an array. Pass in the array and where you want to begin slicing from.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1153,7 +1189,7 @@ Passed in to the arguments in the following order: projectile_name, energy, inte
 
         To &#34;slice&#34; an array of dictionaries and return sliced array.
 
-        Function to slice an array. Pass in the array and where you want to beginn slicing from. 
+        Function to slice an array. Pass in the array and where you want to begin slicing from. 
         &#34;&#34;&#34;
         new_array = []
         index =0
@@ -1211,6 +1247,7 @@ Passed in to the arguments in the following order: projectile_name, energy, inte
 <li><code><a title="nuclear_gamma_tracker.automation4LISE.FP_slit_X_transmission_percent" href="#nuclear_gamma_tracker.automation4LISE.FP_slit_X_transmission_percent">FP_slit_X_transmission_percent</a></code></li>
 <li><code><a title="nuclear_gamma_tracker.automation4LISE.get_intensity" href="#nuclear_gamma_tracker.automation4LISE.get_intensity">get_intensity</a></code></li>
 <li><code><a title="nuclear_gamma_tracker.automation4LISE.get_thickness" href="#nuclear_gamma_tracker.automation4LISE.get_thickness">get_thickness</a></code></li>
+<li><code><a title="nuclear_gamma_tracker.automation4LISE.hi" href="#nuclear_gamma_tracker.automation4LISE.hi">hi</a></code></li>
 <li><code><a title="nuclear_gamma_tracker.automation4LISE.isotope_loop" href="#nuclear_gamma_tracker.automation4LISE.isotope_loop">isotope_loop</a></code></li>
 <li><code><a title="nuclear_gamma_tracker.automation4LISE.isotope_tuning_values" href="#nuclear_gamma_tracker.automation4LISE.isotope_tuning_values">isotope_tuning_values</a></code></li>
 <li><code><a title="nuclear_gamma_tracker.automation4LISE.notes" href="#nuclear_gamma_tracker.automation4LISE.notes">notes</a></code></li>
