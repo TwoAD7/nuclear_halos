@@ -34,7 +34,8 @@ doclint:
 	pydocstyle $(MODULENAME)
 
 test:
-	pytest -v $(MODULENAME)
+	@echo "Enter Mg_33 for the first user input and Mg_40 for the second user input."
+	pytest -v -s $(MODULENAME)
 
 .PHONY: init docs lint test 
 
