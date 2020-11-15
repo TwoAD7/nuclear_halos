@@ -1,6 +1,8 @@
 """Summary.
 
-Module to control automation in LISE++ with NSCL configuration file.
+Written by: Roy Salinas
+
+Main module to control automation in LISE++ with NSCL configuration file.
 The implementation of the FRIB configuration file is yet to be developed.
 
 Purpose: To retrive particular parameters from LISE++ such as beam intensity,

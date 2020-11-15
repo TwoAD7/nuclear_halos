@@ -1,6 +1,7 @@
 """Summary.
 
-Interface for autoscript.
+File to be called on terminal; will begin the process of finding specific information
+for particular isotope
 """
 from nuclear_gamma_tracker import automation_4_lise as a4l
 from nuclear_gamma_tracker import start_calls as strt
@@ -9,7 +10,7 @@ from nuclear_gamma_tracker import start_calls as strt
 def main():
     """Summary.
 
-    Main function used to put everything in one place.
+    Main function that prompts user if LISE++ GUI is open or not.
     """
     print("Beginning the automation for LISE++...")
     res = input("Are you opening the program for the first time? (yes or no)")

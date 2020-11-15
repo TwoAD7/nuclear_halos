@@ -69,8 +69,7 @@ def start():
 
     FP_slit_width = input("Enter the width of the FP slits: ")
     wedge_range = input(
-        "What is the min. and max. of your wedge selection? \
-        ( 2300,3100 for example) ")
+        "What is the min. and max. of your wedge selection? (2300,3100 for example) ")
     # get rid of the underscore in the isotope name
     wedge_range = wedge_range.replace(",", " ")
     wedge_range = wedge_range.split()
