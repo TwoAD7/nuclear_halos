@@ -31,15 +31,15 @@ Note: This can be improved to contain images of the isotope that appears on the 
 Doing this rids the dependence on one's screen resolution and local pixel coordinates.
 """
 pixel_locations = {
-    "Mg_32": {
-        "x": 1121, "y": 626}, "Mg_33": {
-            "x": 1116, "y": 626}, "Mg_34": {
-                "x": 1116, "y": 626}, "Mg_35": {
-                    "x": 1116, "y": 626}, "Mg_36": {
-                        "x": 1136, "y": 626}, "Mg_37": {
-                            "x": 1116, "y": 626}, "Mg_38": {
-                                "x": 1116, "y": 626}, "Mg_40": {
-                                    "x": 1106, "y": 626}}
+    "Mg_32": {"x": 1121, "y": 626}, 
+    "Mg_33": {"x": 1116, "y": 626}, 
+    "Mg_34": {"x": 1116, "y": 626}, 
+    "Mg_35": {"x": 1116, "y": 626}, 
+    "Mg_36": {"x": 1136, "y": 626}, 
+    "Mg_37": {"x": 1116, "y": 626}, 
+    "Mg_38": {"x": 1116, "y": 626}, 
+    "Mg_40": {"x": 1106, "y": 626}
+    }
 
 
 """
@@ -61,21 +61,21 @@ isotope_info = [
 
 # dictionary of dictionary
 beam_info = {
-    "O_16": {
-        "Energy": 150, "Intensity": 175}, "O_18": {
-            "Energy": 120, "Intensity": 150}, "Ne_20": {
-                "Energy": 170, "Intensity": 80}, "Ne_22": {
-                    "Energy": 150, "Intensity": 100}, "Mg_24": {
-                        "Energy": 170, "Intensity": 60}, "Si_28": {
-                            "Energy": 160, "Intensity": 10}, "S_32": {
-                                "Energy": 150, "Intensity": 60}, "Ar_36": {
-                                    "Energy": 150, "Intensity": 75}, "Ca_40": {
-                                        "Energy": 140, "Intensity": 50}, "Ca_48": {
-                                            "Energy": 90, "Intensity": 15}, "Ca_48": {
-                                                "Energy": 140, "Intensity": 80}, "Ni_58": {
-                                                    "Energy": 160, "Intensity": 20}, "Ni_64": {
-                                                        "Energy": 140, "Intensity": 7}, "Ge_76": {
-                                                            "Energy": 130, "Intensity": 25}}
+    "O_16":  {"Energy": 150, "Intensity": 175}, 
+    "O_18":  {"Energy": 120, "Intensity": 150}, 
+    "Ne_20": {"Energy": 170, "Intensity": 80 }, 
+    "Ne_22": {"Energy": 150, "Intensity": 100},
+    "Mg_24": {"Energy": 170, "Intensity": 60 }, 
+    "Si_28": {"Energy": 160, "Intensity": 10 }, 
+    "S_32":  {"Energy": 150, "Intensity": 60 }, 
+    "Ar_36": {"Energy": 150, "Intensity": 75 }, 
+    "Ca_40": {"Energy": 140, "Intensity": 50 }, 
+    "Ca_48": {"Energy": 90,  "Intensity": 15 }, 
+    "Ca_48": {"Energy": 140, "Intensity": 80 }, 
+    "Ni_58": {"Energy": 160, "Intensity": 20 }, 
+    "Ni_64": {"Energy": 140, "Intensity": 7  }, 
+    "Ge_76": {"Energy": 130, "Intensity": 25 }
+    }
 
 
 # Didn't include the rest of the beam list, intensity was too low to be
