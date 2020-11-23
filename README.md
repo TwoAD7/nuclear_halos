@@ -43,10 +43,9 @@ This should open python. If nothing or error is invoked, you will need to instal
 * There are two scripts required to produce the .csv files with configuration information: 
 	- automation4LISE.py 
 	- auto4LISE.py 
-	--------------
 	
-	automation4LISE.py
-	------------------
+* automation4LISE.py
+ ------------------
 		> This is the implementation module with all of the functions implemented. 
 	auto4LISE.py 
 	------------
