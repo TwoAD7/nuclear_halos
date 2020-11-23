@@ -30,6 +30,21 @@ pixel locations for each isotope based on my screen (Resolution: 1920x1080)
 Note: This can be improved to contain images of the isotope that appears on the screen.
 Doing this rids the dependence on one's screen resolution and local pixel coordinates.
 """
+
+
+#useros = platform.system()
+
+#if useros == "Linux":
+#    print("Using a Linux OS...")
+#    desktop = os.path.expanduser("~/Desktop")
+#    print(f"Your desktop path is: {desktop}")
+#elif useros == "Windows":
+print("Using a Windows OS...")
+home = os.path.expanduser('~') #find your home directory 
+desktop = home + "\Desktop"
+print(f"Your desktop path is {desktop}")
+
+
 pixel_locations = {
     "Mg_32": {
         "x": 1121, "y": 626}, "Mg_33": {
@@ -220,13 +235,13 @@ def set_I2_wedge(wedge_thickness):
     """
     print("Setting I2_wedge...")
     pag.moveTo(60, 461)  # move to wedge button
-    pag.click()
+    pag.click(interval=1)
     pag.write(str(wedge_thickness))
     pag.moveTo(926, 223)  # set spectrometer after block
-    pag.click()
+    pag.click(interval=1)
     time.sleep(2)
     pag.moveTo(397, 398)  # select wedge profile
-    pag.click()
+    pag.click(interval=1)
     pag.moveTo(881, 394)  # move to calculate angle
     pag.click()
     time.sleep(10)  # wait
@@ -290,13 +305,13 @@ def get_thickness():
     pc.copy("")  # clear clipboard
     print("Retrieving thickness...")
     pag.moveTo(453, 38)  # calculations
-    pag.click()
+    pag.click(interval=1)
     pag.dragTo(504, 151, .5)  # Optimum target
-    time.sleep(.6)
+    time.sleep(1)
     pag.moveTo(381, 485)  # first ok
-    pag.click()
+    pag.click(interval=1.5)
     pag.moveTo(326, 655)  # second ok
-    pag.click()
+    pag.click(interval=1.5)
     time.sleep(20)
     pag.moveTo(260, 451)  # load thickness
     pag.click()
@@ -341,7 +356,7 @@ def get_intensity(isotope, beam_element, beam_mass):
     pag.moveTo(1483, 417)  # File save button
     pag.click()
     pag.moveTo(531, 339)  # file save text box
-    pag.click()
+    pag.click(interval=1)
     # desktop comes from top of the sript.
     filename = str(desktop) + r"\data.txt"
     print(f"The file is being saved at the following location: {filename}")
@@ -568,11 +583,7 @@ def isotope_tuning_values(
         isotope_end,
         wedge_range):
     """To find the best configuration using a Ca 48 beam."""
-    set_projectile(
-        "Ca",
-        140,
-        80,
-        48)  # set the beam here with element name, energy, intensity, atomic number
+    set_projectile("Ca",140,80,48)  # set the beam here with element name, energy, intensity, atomic number
     start = time.time()
     set_FP_slits(FP_slit_width)
     # if bool_value == True: #if you want to start from  a particular isotope

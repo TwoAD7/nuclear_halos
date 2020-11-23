@@ -3,8 +3,8 @@
 File to be called on terminal; will begin the process of finding specific information
 for particular isotope
 """
-from nuclear_gamma_tracker import automation_4_lise as a4l
-from nuclear_gamma_tracker import start_calls as strt
+import automation_4_lise as a4l
+import start_calls as strt
 
 
 def main():
