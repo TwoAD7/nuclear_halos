@@ -1,45 +1,71 @@
+ABOUT THIS PACKAGE 
+------------------
+
+This package was created for the purpose of automating the tasks of finding yields for 
+Magnesium isotopes between Mg 32 - Mg 40 with LISE++. It is meant to be ran after installing LISE++ 
+on your computer. The target audience is meant to be members of the lifetime grout at 
+NCSL/FRIB.
+ * https://groups.nscl.msu.edu/lifetime/
+
+However, anyone interested is also allowed to run this package. 
+
+If you do not have LISE++ installed on your computer, you can go to the following link to install 
+LISE++
+ * http://lise.nscl.msu.edu/download/
+
+For general information about LISE++, go to the following website
+ * http://lise.nscl.msu.edu/lise.html
+
+Follow the instructions that come with the installation of LISE++ to utilize this package. After LISE++ has been installed, make sure to have a shortcut (the logo) on your desktop as this package utilizes on finding the icon on your desktop. That is the way it is currently set up, later updates will work on ridding of the dependence on the icon to run the 
+script.
+
+Future updates will include the ability to use any isotope on the nuclear chart that LISE++ offers and update to the 
+FRIB configuration as the Coupled Cyclotron Facility (CCF) was shutdow November 15th, 2020. 
+
+
 INFORMATION ABOUT RUNNING SCRIPT:
 ----------------------------------
 
 * Currently, only set up to work on Windows OS.
 
-* The automation scripts were written in python 3. If you do not have python 3 installed, you will need to install it as
-certain functions are only available in python 3. A quick gooogle search on how to install python 3 for windows will provide 
+The automation scripts were written in python 3. If you do not have python 3 installed, you will need to install it as
+certain functions are only available in python 3. A quick gooogle search on how to install python 3 for Windows will provide 
 the information you need.
-	> To check if you have python installed, go to your windows terminal and type:
-		python 
-	> This should open python. If nothing or error is invoked, you will need to install python 3. 
 
-* The following modules are required to run:
+To check if you have python installed, go to your windows terminal and type:
+ 	> python  
 
-	- pyautogui 
-	- matplotlib 
-	- pyperclip
-	- pandas
-	- os 
-	- platform 
-	- time 
+This should open python. If nothing or error is invoked, you will need to install python 3. 
 
-* If they are not installed, they can be installed via the following command in 
- your windows terminal:
- 	> pip install MODULE (ex. pip install pyautogui)
-* If that does not work, try the following:
-	> py -m pip install MODULE 
-* If you do not have pip installed, proceed to the following link to donwload pip:
-	> https://phoenixnap.com/kb/install-pip-windows
+The following modules are required to run:
+ - pyautogui 
+ - matplotlib 
+ - pyperclip
+ - pandas
+ - os 
+ - platform 
+ - time 
+ - numpy 
 
-* There are two scripts required to produce the .csv files with configuration information: 
-	- automation4LISE.py 
-	- auto4LISE.py 
-	
-	automation4LISE.py
-	------------------
-		> This is the implementation module with all of the functions implemented. 
-	auto4LISE.py 
-	------------
-		> This is the script that calls the implementation module; the "interface".
-		
-* Once you have the moduled installed, python 3 installed, and 
+If they are not installed, they can be installed via the following command in your windows terminal:
+ > pip install <MODULE> (example: pip install pyautogui)
+
+If that does not work, try the following:
+ > py -m pip install <MODULE> 
+
+If you do not have pip installed, proceed to the following link to donwload pip:
+  * https://phoenixnap.com/kb/install-pip-windows
+
+There are three files that are responsible for all of tasks regarding LISE++
+ - automation_4_lise.py 
+ 	- Implementation file containing all of functions that are called by  _start_calls.py_ and _auto_4_lise.py_
+ - auto_4_lise.py
+ 	- The interface script that is responsible for starting the program. This is the function that is to be
+ 	called on terminal to begin. It is called via the following on terminal:
+ 		> python auto_4_lise.py 
+ - start_calls.py
+ 	- As the name implies, this script is meant to call the start functions that are found in _aut0_4_lise.py_
+
 
 DATA STORAGE 
 ------------
@@ -47,35 +73,19 @@ DATA STORAGE
 * The data is saved in individual .csv files for each corresponding Magnesium isotope in the same folder the scripts are in.
  It is then required from there that the user visually inspects the .csv files to find best compromise between intensity and purity.
 
-* The intermediate files "data.txt" and "pps_data.txt" are files that are created with the sole purpose of being reused. They are 
-created when the script is originally executed and keeps being updated corresponding to each isotope. It is safe to delete these 
-two files once you are done with the program. 
+* The intermediate files "data.txt" and "pps_data.txt" are files that are created with the sole purpose of being reused. They are created when the script is originally executed and keeps being updated corresponding to each isotope. It is safe to delete these two files once you are done with the analysis. 
 
 GENERAL INFORMATION
 -------------------
 
-> This folder contains preliminary LISE++ files for optimal configurations using NSCL and FRIB facilities
-to study isotopes Mg 32 through Mg 40. 
+* It is recommended to set all NSCL and FRIB files to have a momentum acceptance of 1% (dp/p = 1%) at the I2_Slits and the pre-separator focal plane (O4_PS_FP), respectively.
 
-> All NSCL and FRIB files have been set to dp/p = 1%; at the I2_Slits and the pre-separator focal
-plane (O4_PS_FP), respectively.
-
-> To allow for largest intenisty possible on the FRIB LISE++ configuration, the pre-separator 
+* To allow for largest intenisty possible on the FRIB/LISE++ configuration, the pre-separator 
 slits (PS_Wedge_Slits) are set to the aperture limit, 135 mm. Wedges and momentum acceptances were 
 later adjusted downstream to yield optimal purity results without large comprimise to intensity.
 
-> All NSCL files have FP_Slits set to 10 mm and have purity greater than 91%.
+* FRIB intensities should be 2-3 orders of magnitude greater than NSCL intensities, roughly speaking.  
 
-> All FRIB files have purity greater than 92%. 
-
-> FRIB intensities are all 2-3 orders of magnitude greater than NSCL intensities.  
-
-> For isotopes Mg 38 and Mg 40, there are 2-3 LISE++ files for each isotope. Each file is a 
-different compromise on purity and intensity for the corresponding isotope. The intensities 
-that are used in the UPDATE presentation are from Mg_40_FRIB_3 and Mg_38_FRIB_3. 
-
-> As of now, an update is ensuing that will work with Linux machines (Mac OS, for example). This will be updated when that is completed. 
-
-> If there are any errors, please contact me at salinas@frib.msu.edu
+* f there are any errors, please contact: salinas@frib.msu.edu
  
 
