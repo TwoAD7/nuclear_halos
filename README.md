@@ -1,3 +1,13 @@
+ABOUT THIS PACKAGE 
+------------------
+
+This package was created for the purpose of automating the tasks of finding yields for 
+Magnesium isotopes between Mg 32 - Mg 40 with LISE++. It is meant to be ran after installing LISE++ 
+on your computer. The target audience is meant to be members of the lifetime grout at 
+NCSL/FRIB
+ * https://groups.nscl.msu.edu/lifetime/
+
+
 INFORMATION ABOUT RUNNING SCRIPT:
 ----------------------------------
 
