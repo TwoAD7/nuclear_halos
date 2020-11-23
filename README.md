@@ -7,7 +7,7 @@ INFORMATION ABOUT RUNNING SCRIPT:
 certain functions are only available in python 3. A quick gooogle search on how to install python 3 for windows will provide 
 the information you need.
 To check if you have python installed, go to your windows terminal and type:
- > python 
+ 	> python 
  
 This should open python. If nothing or error is invoked, you will need to install python 3. 
 
