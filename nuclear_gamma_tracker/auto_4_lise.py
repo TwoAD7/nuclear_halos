@@ -6,11 +6,8 @@ python auto_4_lise.py
 
 """
 
-import automation_4_lise as a4l
-import start_calls as strt
-
-#from nuclear_gamma_tracker import automation_4_lise as a4l
-#from nuclear_gamma_tracker import start_calls as strt
+from nuclear_gamma_tracker import automation_4_lise as a4l
+from nuclear_gamma_tracker import start_calls as strt
 
 
 def main():
