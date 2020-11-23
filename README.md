@@ -6,6 +6,7 @@ INFORMATION ABOUT RUNNING SCRIPT:
 * The automation scripts were written in python 3. If you do not have python 3 installed, you will need to install it as
 certain functions are only available in python 3. A quick gooogle search on how to install python 3 for windows will provide 
 the information you need.
+
 To check if you have python installed, go to your windows terminal and type:
  	> python 
  
