@@ -5,8 +5,8 @@ already with the GUI open.
 """
 
 
-import automation_4_lise as a4l
-#from nuclear_gamma_tracker import automation_4_lise as a4l
+#import automation_4_lise as a4l
+from nuclear_gamma_tracker import automation_4_lise as a4l
 
 import pyautogui as pag
 from os import path
