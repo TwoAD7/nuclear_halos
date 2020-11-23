@@ -86,6 +86,6 @@ later adjusted downstream to yield optimal purity results without large comprimi
 
 * FRIB intensities should be 2-3 orders of magnitude greater than NSCL intensities, roughly speaking.  
 
-* f there are any errors, please contact: salinas@frib.msu.edu
+* If there are any errors, please contact: salinas@frib.msu.edu
  
 
