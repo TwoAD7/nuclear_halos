@@ -5,6 +5,7 @@ dependencies:
   - matplotlib
   - pandas
   - pytest
+  - jupyter
   - pdoc3
   - numpy
   - pyautogui
