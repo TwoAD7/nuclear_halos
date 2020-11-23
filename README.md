@@ -26,7 +26,7 @@ FRIB configuration as the Coupled Cyclotron Facility (CCF) was shutdow November 
 INFORMATION ABOUT RUNNING SCRIPT:
 ----------------------------------
 
-* Currently, only set up to work on Windows OS.
+* Currently, only tested on Windows OS.
 
 The automation scripts were written in python 3. If you do not have python 3 installed, you will need to install it as
 certain functions are only available in python 3. A quick gooogle search on how to install python 3 for Windows will provide 
