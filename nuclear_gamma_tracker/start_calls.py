@@ -1,20 +1,19 @@
 """Summary.
 
 Start calls to start the program. Will prompt user to answer if LISE++ is running
-already with the GUI open. If not, answer "no" and it will locate the image
-on your desktop and open it.
-
-NOTE
-Could be useful to update this to locate LISE++.exe and run the executable
-instead of looking for the logo for startup.
+already with the GUI open.
 """
 
+
 import automation_4_lise as a4l
+#from nuclear_gamma_tracker import automation_4_lise as a4l
+
 import pyautogui as pag
 from os import path
 import numpy as np
 import sys
 import time
+
 
 def start():
     """Summary.
@@ -79,11 +78,12 @@ def start():
         int(wedge_range[0]), int(wedge_range[1]) + 100, 100)
     try:
         # find the image of the LISE++ icon,return coordinates for the cetner
+        #x, y = pag.center(pag.locateOnScreen("LISE++.png"))
         x, y = pag.center(pag.locateOnScreen("images/LISE++.png"))
-        print(x,y)
         pag.moveTo(x, y)
     except TypeError:
         # if the app. has been clicked before
+        #x, y = pag.center(pag.locateOnScreen("LISE++_2.png"))
         x, y = pag.center(pag.locateOnScreen("images/LISE++_2.png"))
         pag.moveTo(x, y)
     pag.doubleClick()

@@ -24,11 +24,12 @@ def test_arrayslicer():
         {"isotope": "Mg_33", "data": 0.0},
         {"isotope": "Mg_34", "data": 0.0},
         {"isotope": "Mg_35", "data": 0.0},
-        {"isotope": "Mg_36", "data": 0.0},
+        {"isotope": "Mg_36", "data": 0.0}, 
         ]
     out_array = [
         {"isotope": "Mg_34", "data": 0.0},
         {"isotope": "Mg_35", "data": 0.0},
-        {"isotope": "Mg_36", "data": 0.0}, ]
+        {"isotope": "Mg_36", "data": 0.0}, 
+        ]
     sliced_array = a4l.slice_array(isotope_info, "Mg_34")
-    assert np.array_equal(sliced_array, out_array)32
+    assert np.array_equal(sliced_array, out_array)

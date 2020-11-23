@@ -12,7 +12,7 @@ plane slit width, and Image 2 slit width.
 All beam data comes from NSCL website: https://nscl.msu.edu/users/beams.html
 
 Python version: 3.7.1
-Currently, this is set up to only works with a Windows OS.
+Currently, this is has only been tested on a Windows OS.
 """
 
 import time
@@ -39,7 +39,7 @@ Doing this rids the dependence on one's screen resolution and local pixel coordi
 #    desktop = os.path.expanduser("~/Desktop")
 #    print(f"Your desktop path is: {desktop}")
 #elif useros == "Windows":
-print("Using a Windows OS...")
+#print("Using a Windows OS...")
 home = os.path.expanduser('~') #find your home directory 
 desktop = home + "\Desktop"
 print(f"Your desktop path is {desktop}")
@@ -352,7 +352,7 @@ def get_intensity(isotope, beam_element, beam_mass):
     # print(x,y)
     pag.position()
     pag.moveTo(x, y)
-    pag.click(button="right")
+    pag.click(button="right",interval=1)
     pag.moveTo(1483, 417)  # File save button
     pag.click()
     pag.moveTo(531, 339)  # file save text box

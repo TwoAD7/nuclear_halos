@@ -1,10 +1,16 @@
 """Summary.
 
-File to be called on terminal; will begin the process of finding specific information
-for particular isotope
+Primary file to be called on terminal; will begin the process of finding specific information
+for particular isotope. Run with the following command: 
+python auto_4_lise.py
+
 """
+
 import automation_4_lise as a4l
 import start_calls as strt
+
+#from nuclear_gamma_tracker import automation_4_lise as a4l
+#from nuclear_gamma_tracker import start_calls as strt
 
 
 def main():
@@ -13,7 +19,7 @@ def main():
     Main function that prompts user if LISE++ GUI is open or not.
     """
     print("Beginning the automation for LISE++...")
-    res = input("Are you opening the program for the first time? (yes or no)")
+    res = input("Are you opening the program for the first time? (yes or no): ")
     if res == "yes":
         FP_slit_width, isotope_start, isotope_end, wedge_range = strt.start()
     else:
