@@ -64,7 +64,7 @@ If you do not have pip installed, proceed to the following link to donwload pip:
  	called on terminal to begin. It is called via the following on terminal:
  		> python -m nuclear_gamma_tracker.auto_4_lise
  - start_calls.py
- 	- As the name implies, this script is meant to call the start functions that are found in _aut0_4_lise.py_
+ 	- As the name implies, this script is meant to call the start functions that are found in _auto_4_lise.py_
 
 
 DATA STORAGE 
