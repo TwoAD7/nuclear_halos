@@ -35,7 +35,7 @@ the information you need.
 To check if you have python installed, go to your windows terminal and type:
  > python  
 
-This should open python. If nothing or error is invoked, you will need to install python 3. 
+This should open python. If an error is invoked, you will need to install python 3. 
 
 The following modules are required to run:
  - pyautogui 
