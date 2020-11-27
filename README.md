@@ -33,7 +33,7 @@ certain functions are only available in python 3. A quick gooogle search on how 
 the information you need.
 
 To check if you have python installed, go to your windows terminal and type:
- 	> python  
+ > python  
 
 This should open python. If nothing or error is invoked, you will need to install python 3. 
 
@@ -56,7 +56,7 @@ If that does not work, try the following:
 If you do not have pip installed, proceed to the following link to donwload pip:
   * https://phoenixnap.com/kb/install-pip-windows
 
-There are three files that are responsible for all of tasks regarding LISE++
+<u>There are three files that are responsible for all of tasks regarding LISE++</u>
  - automation_4_lise.py 
  	- Implementation file containing all of functions that are called by  _start_calls.py_ and _auto_4_lise.py_
  - auto_4_lise.py
@@ -65,6 +65,9 @@ There are three files that are responsible for all of tasks regarding LISE++
  		> python auto_4_lise.py 
  - start_calls.py
  	- As the name implies, this script is meant to call the start functions that are found in _aut0_4_lise.py_
+
+To run the scritpt, you will need to go to the top directory in `nuclear_gamma_tracking` and run the following command
+> python -m nuclear_gamma_tracker.auto_4_lise 
 
 
 DATA STORAGE 
