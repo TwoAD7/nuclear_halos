@@ -62,12 +62,9 @@ If you do not have pip installed, proceed to the following link to donwload pip:
  - auto_4_lise.py
  	- The interface script that is responsible for starting the program. This is the function that is to be
  	called on terminal to begin. It is called via the following on terminal:
- 		> python auto_4_lise.py 
+ 		> python -m nuclear_gamma_tracker.auto_4_lise
  - start_calls.py
  	- As the name implies, this script is meant to call the start functions that are found in _aut0_4_lise.py_
-
-To run the scritpt, you will need to go to the top directory in `nuclear_gamma_tracking` and run the following command
-> python -m nuclear_gamma_tracker.auto_4_lise 
 
 
 DATA STORAGE 
