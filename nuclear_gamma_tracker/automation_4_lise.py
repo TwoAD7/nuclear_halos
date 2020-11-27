@@ -334,8 +334,6 @@ def get_thickness():
     return target_thickness
 
 # to retrive intensity
-
-
 def get_intensity(isotope, beam_element, beam_mass):
     """Summary.
 
