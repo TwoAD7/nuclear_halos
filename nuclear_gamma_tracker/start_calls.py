@@ -79,12 +79,12 @@ def start():
     try:
         # find the image of the LISE++ icon,return coordinates for the cetner
         #x, y = pag.center(pag.locateOnScreen("LISE++.png"))
-        x, y = pag.center(pag.locateOnScreen("images/LISE++.png"))
+        x, y = pag.center(pag.locateOnScreen("./nuclear_gamma_tracker/images/LISE++.png"))
         pag.moveTo(x, y)
     except TypeError:
         # if the app. has been clicked before
         #x, y = pag.center(pag.locateOnScreen("LISE++_2.png"))
-        x, y = pag.center(pag.locateOnScreen("images/LISE++_2.png"))
+        x, y = pag.center(pag.locateOnScreen("./nuclear_gamma_tracker/images/LISE++_2.png"))
         pag.moveTo(x, y)
     pag.doubleClick()
     time.sleep(5)
