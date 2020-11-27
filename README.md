@@ -56,7 +56,7 @@ If that does not work, try the following:
 If you do not have pip installed, proceed to the following link to donwload pip:
   * https://phoenixnap.com/kb/install-pip-windows
 
-There are three files that are responsible for all of tasks regarding LISE++
+<u> There are three files that are responsible for all of tasks regarding LISE++ </u>
  - automation_4_lise.py 
  	- Implementation file containing all of functions that are called by  _start_calls.py_ and _auto_4_lise.py_
  - auto_4_lise.py
