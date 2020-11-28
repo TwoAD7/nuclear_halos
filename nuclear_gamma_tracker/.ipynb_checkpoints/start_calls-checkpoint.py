@@ -3,11 +3,17 @@
 Start calls to start the program. Will prompt user to answer if LISE++ is running
 already with the GUI open. If not, answer "no" and it will locate the image
 on your desktop and open it.
+
+NOTE
+Could be useful to update this to locate LISE++.exe and run the executable
+instead of looking for the logo for startup.
 """
 
-from nuclear_gamma_tracker import automation_4_lise as a4l
+import automation_4_lise as a4l
 import pyautogui as pag
+from os import path
 import numpy as np
+import sys
 import time
 
 
@@ -15,7 +21,8 @@ def start():
     """Summary.
 
     Function to open LISE++ GUI from the icon logo that is on
-    your desktop (very specific at the moment).
+    your desktop (very specific at the moment).This function will prompt you 
+    for input to pass to the LISE++ GUI.
 
     """
     ans = input("Do you want to start from a particular isotope? (yes or no): ")
@@ -65,8 +72,7 @@ def start():
 
     FP_slit_width = input("Enter the width of the FP slits: ")
     wedge_range = input(
-        "What is the min. and max. of your wedge selection? \
-        ( 2300,3100 for example) ")
+        "What is the min. and max. of your wedge selection? (2300,3100 for example) ")
     # get rid of the underscore in the isotope name
     wedge_range = wedge_range.replace(",", " ")
     wedge_range = wedge_range.split()
@@ -74,20 +80,20 @@ def start():
         int(wedge_range[0]), int(wedge_range[1]) + 100, 100)
     try:
         # find the image of the LISE++ icon,return coordinates for the cetner
-        x, y = pag.center(pag.locateOnScreen("LISE++.png"))
+        x, y = pag.center(pag.locateOnScreen("images/LISE++.png"))
         pag.moveTo(x, y)
     except TypeError:
         # if the app. has been clicked before
-        x, y = pag.center(pag.locateOnScreen("LISE++_2.png"))
+        x, y = pag.center(pag.locateOnScreen("images/LISE++_2.png"))
         pag.moveTo(x, y)
     pag.doubleClick()
-    time.sleep(2.5)
+    time.sleep(5)
     pag.moveTo(18, 44)  # file
     pag.doubleClick()
-    pag.dragTo(112, 257, .5)  # configuration
-    pag.click(interval=.5)
+    pag.dragTo(112, 257, 1)  # configuration
+    pag.click(interval=1)
     pag.moveTo(825, 251)  # load
-    pag.click(interval=.5)
+    pag.click(interval=1)
     pag.moveTo(154, 326)  # textbox
     pag.click()
     pag.write("NSCL")
@@ -104,7 +110,8 @@ def start2():
     """Summary.
 
     If LISE++ GUI is already open and visible on your screen, this
-    would be the start function that is to be used.
+    would be the start function that is to be used. This function will prompt you 
+    for input to pass to the LISE++ GUI.
     """
     ans = input("Do you want to start from a particular isotope? (yes or no): ")
     if ans == "yes" or ans == "YES" or ans == "Yes":
