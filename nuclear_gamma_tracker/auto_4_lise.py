@@ -11,7 +11,7 @@ Will prompt user to answer if LISE++ is running already with the GUI open. If no
 answer "no" and it will locate the LISE++ image icon on your desktop and open it.
 """
 
-from nuclear_gamma_tracker import automation_4_lise as a4l
+from nuclear_gamma_tracker import implementation_4_auto as a4l
 from nuclear_gamma_tracker import start_calls as strt
 import sys 
 
