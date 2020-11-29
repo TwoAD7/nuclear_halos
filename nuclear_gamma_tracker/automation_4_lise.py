@@ -104,59 +104,6 @@ beam_info = {
  }
 """
 
-
-def _isotope_start(optional_input=""):
-    """Summary.
-
-    Function to collect the isotope you want to start with. Have to enter the
-    isotpes as 'Mg_32', for example.
-    Currently, can only select between isotopes Mg_32 - Mg_40.
-
-    """
-    while True:
-        try:
-            if len(optional_input) != 0:  # check if we have input
-                _check = int(optional_input)
-                raise ValueError
-                optional_input = input(
-                    "Enter in isotope form ('Mg_32' for example) not integer number.")
-            if len(optional_input) == 0:  # check if we don't have input
-                isotope_start = input(
-                    "Which isotope would you like to start with? (Enter as 'Mg_32' for example.): ")
-                check = int(isotope_start)
-                print("Enter in isotope form ('Mg_32' for example) not integer number.")
-        # if no optional input but user typed in correct input (Mg_32 or Mg_33
-        # or ...), catch the Valueerror exception
-        except ValueError:
-            try:
-                check2 = float(isotope_start)
-                print("Enter in isotope form ('Mg_32' for example) not float number.")
-            except NameError:  # if given optional input, catch it with this exception
-                try:
-                    _check2 = float(optional_input)
-                    print(
-                        "Enter in isotope form ('Mg_32' for example) not float number.")
-                except ValueError:  # if we have correct input
-                    print(f"Starting with {optional_input}...")
-                    return optional_input
-            except ValueError:  # if not given optional input and we have correct input
-                print(f"Starting with {isotope_start}...")
-                return isotope_start
-
-
-def _isotope_end():
-    """Summary.
-
-    Function to collect the isotope you want to end with. Have to enter the
-    isotpes as 'Mg_32', for example. Currenlty, the furthest you can go is Mg_40.
-
-    """
-    isotope_end = input(
-        "Which isotope would you like to end with? (Enter as 'Mg_36' for example.): ")
-    print(f"Ending with {isotope_end}...")
-    return isotope_end
-
-
 def notes():
     """General Notes.
 

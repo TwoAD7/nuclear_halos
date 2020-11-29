@@ -1,101 +1,105 @@
 """Summary.
 
-Start calls to start the program. Will prompt user to answer if LISE++ is running
-already with the GUI open.
+Start calls to start the program. Relies on input that is given on terminal when 
+auto_4_lise.py is called. See README section INFORMATION ABOUT SCRIPT
 """
 
-
-#import automation_4_lise as a4l
 from nuclear_gamma_tracker import automation_4_lise as a4l
-
 import pyautogui as pag
-from os import path
+import argparse as ap
+import textwrap
 import numpy as np
-import sys
 import time
+import sys
 
+#list of isotopes that are currently allowed 
+isotopes = ['Mg_32','Mg_33','Mg_34','Mg_35','Mg_36','Mg_37','Mg_38','Mg_40']
+
+
+#Here we create the parser
+#the input for the parser comes from input given to auto_4_lise.py on terminal
+p = ap.ArgumentParser(formatter_class=ap.RawDescriptionHelpFormatter,
+        description=textwrap.dedent('''\
+                Useful Information 
+        ----------------------------------
+             The range of Magnesium (Mg) isotopes that are currently 
+             allowed are betwen Mg_32 - Mg_40 (excluding Mg_39).
+             
+             If no starting or ending Mg isotope is 
+             specified, default values are:
+             
+             isotope_start='Mg_32'
+             isotope_start='Mg_40'
+             
+             Enter the Focal Plane (FP) slit distance as an integer.
+             This value is in milimeters.
+
+             Two input values are required to specify the start and end 
+             of the different values of the wedge thickness range. 
+
+             The order of input to the parser goes as follows:
+
+             isotope_start isotope_end wedge_range_start wedge_range_end FP_width
+             
+         '''))
+    
+p.add_argument("-v","--verbose",action="store_true",help="Prints input from user in a verbose manner.")
+p.add_argument("isotope_start",type=str,help="Isotope to begin with.",nargs="?",default="Mg_32",choices = isotopes)
+p.add_argument("isotope_end",type=str,help="Isotope to end with.",nargs="?",default="Mg_40",choices = isotopes)
+p.add_argument("wedge_range_start", type = int, help = "Starting value for wedge thickness at I2",
+           nargs="?",default = 2300)
+p.add_argument("wedge_range_end", type = int, help = "Ending value for wedge thickness at I2",
+           nargs="?",default = 3100)
+p.add_argument("FP_width", type = int, help = "Width for the Focal Plane (FP) in mm.",
+           nargs="?",default = 10)
+
+    #p.add_argument("echo", help= "prints out your input")
+args = p.parse_args()
+iso_start =  args.isotope_start
+iso_end = args.isotope_end
+wedge_start = args.wedge_range_start
+wedge_end = args.wedge_range_end
+FP_slit_width= args.FP_width
+
+if args.verbose:
+    print(f"Starting isotope: {args.isotope_start}\nEnding isotope: {args.isotope_end}\n")
+    print(f"Starting wedge thickness: {args.wedge_range_start}\nEnding wedge thickness: {args.wedge_range_end}\n")
+    print(f"The Focal Plane slit width is {FP_slit_width}")
+else:
+    print(f"{args.isotope_start}\n{args.isotope_end}")
+    print(f"{args.wedge_range_start}\n{args.wedge_range_end}")
+    print(f"{args.FP_width}")
 
 def start():
     """Summary.
 
     Function to open LISE++ GUI from the icon logo that is on
-    your desktop (very specific at the moment).This function will prompt you 
-    for input to pass to the LISE++ GUI.
-
+    your desktop (very specific at the moment).
     """
-    ans = input("Do you want to start from a particular isotope? (yes or no): ")
-    if ans == "yes" or ans == "YES" or ans == "Yes":
-        isotope_start = a4l._isotope_start()
-    elif ans in ("no", "No", "NO"):
-        isotope_start = "Mg_32"
-        print(f"Starting with {isotope_start}...")
-    else:
-        input_flag = True
-        while input_flag:
-            ans = input(
-                "Invalid input. Only 'yes' or 'no' accepted. Do you want to \
-                start from a particular isotope? (yes or no): ")
-            if ans == "yes":
-                input_flag = False
-                isotope_start = a4l._isotope_start()
-                break
-            elif ans == "no":
-                input_flag = False
-                isotope_start = "Mg_32"
-                print(f"Starting with {isotope_start}...")
-                break
 
-    ans2 = input("Do you want to end with a particular isotope? (yes or no): ")
-    if ans2 == "yes" or ans2 == "YES" or ans2 == "Yes":
-        # flag = True
-        isotope_end = a4l._isotope_end()
-    elif ans2 == "no" or ans2 == "No" or ans2 == "NO":
-        isotope_end = "Mg_40"
-        print(f"Ending with {isotope_end}...")
-    else:
-        _input_flag = True
-        while _input_flag:
-            ans2 = input(
-                "Invalid input. Only 'yes' or 'no' accepted. Do you want to \
-                end from a particular isotope? (yes or no): ")
-            if ans2 == "yes":
-                _input_flag = False
-                isotope_end = a4l._isotope_end()
-                break
-            elif ans2 == "no":
-                _input_flag = False
-                isotope_end = "Mg_40"
-                print(f"Ending with {isotope_end}...")
-                break
+    isotope_start = iso_start
+    isotope_end = iso_end
 
-    FP_slit_width = input("Enter the width of the FP slits: ")
-    wedge_range = input(
-        "What is the min. and max. of your wedge selection? (2300,3100 for example) ")
-    # get rid of the underscore in the isotope name
-    wedge_range = wedge_range.replace(",", " ")
-    wedge_range = wedge_range.split()
-    wedge_range_list = np.arange(
-        int(wedge_range[0]), int(wedge_range[1]) + 100, 100)
+    wedge_range_list = np.arange(int(wedge_start), int(wedge_end) +100,100)
+    print(wedge_range_list)
     try:
         # find the image of the LISE++ icon,return coordinates for the cetner
-        #x, y = pag.center(pag.locateOnScreen("LISE++.png"))
-        x, y = pag.center(pag.locateOnScreen("./nuclear_gamma_tracker/images/LISE++.png"))
+        x, y = pag.center(pag.locateOnScreen("images/LISE++.png"))
         pag.moveTo(x, y)
     except TypeError:
         # if the app. has been clicked before
-        #x, y = pag.center(pag.locateOnScreen("LISE++_2.png"))
-        x, y = pag.center(pag.locateOnScreen("./nuclear_gamma_tracker/images/LISE++_2.png"))
+        x, y = pag.center(pag.locateOnScreen("images/LISE++_2.png"))
         pag.moveTo(x, y)
     pag.doubleClick()
-    time.sleep(5)
+    time.sleep(2.5)
     pag.moveTo(18, 44)  # file
     pag.doubleClick()
-    pag.dragTo(112, 257, 1)  # configuration
+    pag.dragTo(112, 257, .5)  # configuration
     pag.click(interval=1)
     pag.moveTo(825, 251)  # load
     pag.click(interval=1)
     pag.moveTo(154, 326)  # textbox
-    pag.click()
+    pag.click(interval=.5)
     pag.write("NSCL")
     pag.moveTo(471, 323)  # Open button
     pag.click()
@@ -110,61 +114,12 @@ def start2():
     """Summary.
 
     If LISE++ GUI is already open and visible on your screen, this
-    would be the start function that is to be used. This function will prompt you 
-    for input to pass to the LISE++ GUI.
+    would be the start function that is to be used.
     """
-    ans = input("Do you want to start from a particular isotope? (yes or no): ")
-    if ans == "yes" or ans == "YES" or ans == "Yes":
-        isotope_start = a4l._isotope_start()
-    elif ans == "no" or ans == "No" or ans == "NO":
-        isotope_start = "Mg_32"
-        print(f"Starting with {isotope_start}...")
-    else:
-        input_flag = True
-        while input_flag:
-            ans = input(
-                "Invalid input. Only 'yes' or 'no' accepted. Do you want \
-                to start from a particular isotope? (yes or no): ")
-            if ans == "yes":
-                input_flag = False
-                isotope_start = a4l._isotope_start()
-                break
-            elif ans == "no":
-                input_flag = False
-                isotope_start = "Mg_32"
-                print(f"Starting with {isotope_start}...")
-                break
-
-    ans2 = input("Do you want to end with a particular isotope? (yes or no): ")
-    if ans2 == "yes" or ans2 == "YES" or ans2 == "Yes":
-        # flag = True
-        isotope_end = a4l._isotope_end()
-    elif ans2 == "no" or ans2 == "No" or ans2 == "NO":
-        isotope_end = "Mg_40"
-        print(f"Ending with {isotope_end}...")
-    else:
-        _input_flag = True
-        while _input_flag:
-            ans2 = input(
-                "Invalid input. Only 'yes' or 'no' accepted. Do you want to \
-                end from a particular isotope? (yes or no): ")
-            if ans2 == "yes":
-                _input_flag = False
-                isotope_end = a4l._isotope_end()
-                break
-            elif ans2 == "no":
-                _input_flag = False
-                isotope_end = "Mg_40"
-                print(f"Ending with {isotope_end}...")
-                break
-    FP_slit_width = input("Enter the width of the FP slits: ")
-    wedge_range = input(
-        "What is the min. and max. of your wedge selection? ( 2300,3100 for example) ")
-    # get rid of the underscore in the isotope name
-    wedge_range = wedge_range.replace(",", " ")
-    wedge_range = wedge_range.split()
-    wedge_range_list = np.arange(
-        int(wedge_range[0]), int(wedge_range[1]) + 100, 100)
+    isotope_start = iso_start
+    isotope_end = iso_end
+    
+    wedge_range_list = np.arange(int(wedge_start), int(wedge_end) +100,100)
     print(wedge_range_list)
     time.sleep(2.5)
     return FP_slit_width, isotope_start, isotope_end, wedge_range_list
