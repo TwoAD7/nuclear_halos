@@ -39,4 +39,4 @@ if __name__ == "__main__":
     #print("ran as main on terminal")
     main()
 
-#main()
+main()
