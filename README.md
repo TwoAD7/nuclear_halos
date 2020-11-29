@@ -46,6 +46,9 @@ The following modules are required to run:
  - platform 
  - time 
  - numpy 
+ - sys 
+ - textwrap 
+ - argparse 
 
 If they are not installed, they can be installed via the following command in your windows terminal:
  > pip install <MODULE> (example: pip install pyautogui)
@@ -61,17 +64,29 @@ If you do not have pip installed, proceed to the following link to donwload pip:
  	- Implementation file containing all of functions that are called by  _start_calls.py_ and _auto_4_lise.py_
  - auto_4_lise.py
  	- The interface script that is responsible for starting the program. This is the function that is to be
- 	called on terminal to begin. It is called via the following on terminal:
- 		> python -m nuclear_gamma_tracker.auto_4_lise
+ 	called on terminal to begin te process. It is called with the following command on terminal:
+ 		- `python -m nuclear_gamma_tracker.auto_4_lise.py <isotope_start> <isotope_end> <wedge_start>  
+ 		<wedge_end> <FP_width> -v`
+ 			- Isotope start: Which Magnesium isotope you want to start with 
+			- Isotope end  : Which Magnesium isotope you want to end with
+			- Wedge start  : The starting wedge thickness at the I2 plane
+			- Wedge end    : The terminating wedge thickness at the I2 plane
+			- FP width     : The slit width of the focal plane slits at (used to control momentum acceptance of beam)
+
  - start_calls.py
  	- As the name implies, this script is meant to call the start functions that are found in _auto_4_lise.py_
+ 	- To view the contents of the parser in this script, and information about the 
+ 		positional arguments that are passed into _auto_4_lise.py_, run the following from the top-most directory 
+ 		- `python -m nuclear_gamma_tracker.start_calls.py -h`
+
+ To view the contents of
 
 
 DATA STORAGE 
 ------------
 
 * The data is saved in individual .csv files for each corresponding Magnesium isotope in the same folder the scripts are in.
- It is then required from there that the user visually inspects the .csv files to find best compromise between intensity and purity.
+ It is then required from that the user visually inspects the .csv files to find best compromise between intensity and purity.
 
 * The intermediate files "data.txt" and "pps_data.txt" are files that are created with the sole purpose of being reused. They are created when the script is originally executed and keeps being updated corresponding to each isotope. It is safe to delete these two files once you are done with the analysis. 
 
@@ -86,6 +101,6 @@ later adjusted downstream to yield optimal purity results without large comprimi
 
 * FRIB intensities should be 2-3 orders of magnitude greater than NSCL intensities, roughly speaking.  
 
-* If there are any errors, please contact: salinas@frib.msu.edu
+* If there are any errors/questions, please contact: salinas@frib.msu.edu
  
 
