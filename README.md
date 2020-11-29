@@ -91,7 +91,7 @@ DATA STORAGE
 GENERAL INFORMATION
 -------------------
 
-* It is recommended to set all NSCL and FRIB files to have a momentum acceptance of 1% (dp/p = 1%) at the I2_Slits and the pre-separator focal plane (O4_PS_FP), respectively.
+* It is recommended to set all NSCL and FRIB files to have a momentum acceptance of 1% (dp/p = 1%) at the I2_Slits and the pre-separator focal plane (I4_PS_FP), respectively.
 
 * To allow for largest intenisty possible on the FRIB/LISE++ configuration, the pre-separator 
 slits (PS_Wedge_Slits) are set to the aperture limit, 135 mm. Wedges and momentum acceptances were 
