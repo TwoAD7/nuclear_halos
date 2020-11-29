@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.9.1" />
-<title>automation_4_lise API documentation</title>
+<title>nuclear_gamma_tracker.implementation_file API documentation</title>
 <meta name="description" content="Summary …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
@@ -19,25 +19,28 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>automation_4_lise</code></h1>
+<h1 class="title">Module <code>nuclear_gamma_tracker.implementation_file</code></h1>
 </header>
 <section id="section-intro">
 <p>Summary.</p>
-<p>Module to control automation in LISE++ with NSCL configuration file.
+<p>Written by: Roy Salinas</p>
+<p>Main module to control automation in LISE++ with NSCL configuration file.
 The implementation of the FRIB configuration file is yet to be developed.</p>
 <p>Purpose: To retrive particular parameters from LISE++ such as beam intensity,
 beam purity, wedge thickness, wedge angle, momentum acceptance, focal
 plane slit width, and Image 2 slit width.</p>
 <p>All beam data comes from NSCL website: <a href="https://nscl.msu.edu/users/beams.html">https://nscl.msu.edu/users/beams.html</a></p>
 <p>Python version: 3.7.1
-Currently, this is set up to only works with a Windows OS.</p>
+Currently, this is has only been tested on a Windows OS.</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">&#34;&#34;&#34;Summary.
 
-Module to control automation in LISE++ with NSCL configuration file.
+Written by: Roy Salinas
+
+Main module to control automation in LISE++ with NSCL configuration file.
 The implementation of the FRIB configuration file is yet to be developed.
 
 Purpose: To retrive particular parameters from LISE++ such as beam intensity,
@@ -47,7 +50,7 @@ plane slit width, and Image 2 slit width.
 All beam data comes from NSCL website: https://nscl.msu.edu/users/beams.html
 
 Python version: 3.7.1
-Currently, this is set up to only works with a Windows OS.
+Currently, this is has only been tested on a Windows OS.
 &#34;&#34;&#34;
 
 import time
@@ -65,6 +68,22 @@ pixel locations for each isotope based on my screen (Resolution: 1920x1080)
 Note: This can be improved to contain images of the isotope that appears on the screen.
 Doing this rids the dependence on one&#39;s screen resolution and local pixel coordinates.
 &#34;&#34;&#34;
+
+
+#useros = platform.system()
+
+#if useros == &#34;Linux&#34;:
+#    print(&#34;Using a Linux OS...&#34;)
+#    desktop = os.path.expanduser(&#34;~/Desktop&#34;)
+#    print(f&#34;Your desktop path is: {desktop}&#34;)
+#elif useros == &#34;Windows&#34;:
+#print(&#34;Using a Windows OS...&#34;)
+
+home = os.path.expanduser(&#39;~&#39;) #find your home directory 
+desktop = home + &#34;\Desktop&#34;
+print(f&#34;Your desktop path is {desktop}&#34;)
+
+
 pixel_locations = {
     &#34;Mg_32&#34;: {
         &#34;x&#34;: 1121, &#34;y&#34;: 626}, &#34;Mg_33&#34;: {
@@ -123,59 +142,6 @@ beam_info = {
 &#34;Sn_124&#34;:{&#34;Energy&#34;:120,&#34;Intensity&#34;:1.5} #incomplete but enough for our purposes
  }
 &#34;&#34;&#34;
-
-
-def _isotope_start(optional_input=&#34;&#34;):
-    &#34;&#34;&#34;Summary.
-
-    Function to collect the isotope you want to start with. Have to enter the
-    isotpes as &#39;Mg_32&#39;, for example.
-    Currently, can only select between isotopes Mg_32 - Mg_40.
-
-    &#34;&#34;&#34;
-    while True:
-        try:
-            if len(optional_input) != 0:  # check if we have input
-                _check = int(optional_input)
-                raise ValueError
-                optional_input = input(
-                    &#34;Enter in isotope form (&#39;Mg_32&#39; for example) not integer number.&#34;)
-            if len(optional_input) == 0:  # check if we don&#39;t have input
-                isotope_start = input(
-                    &#34;Which isotope would you like to start with? (Enter as &#39;Mg_32&#39; for example.): &#34;)
-                check = int(isotope_start)
-                print(&#34;Enter in isotope form (&#39;Mg_32&#39; for example) not integer number.&#34;)
-        # if no optional input but user typed in correct input (Mg_32 or Mg_33
-        # or ...), catch the Valueerror exception
-        except ValueError:
-            try:
-                check2 = float(isotope_start)
-                print(&#34;Enter in isotope form (&#39;Mg_32&#39; for example) not float number.&#34;)
-            except NameError:  # if given optional input, catch it with this exception
-                try:
-                    _check2 = float(optional_input)
-                    print(
-                        &#34;Enter in isotope form (&#39;Mg_32&#39; for example) not float number.&#34;)
-                except ValueError:  # if we have correct input
-                    print(f&#34;Starting with {optional_input}...&#34;)
-                    return optional_input
-            except ValueError:  # if not given optional input and we have correct input
-                print(f&#34;Starting with {isotope_start}...&#34;)
-                return isotope_start
-
-
-def _isotope_end():
-    &#34;&#34;&#34;Summary.
-
-    Function to collect the isotope you want to end with. Have to enter the
-    isotpes as &#39;Mg_32&#39;, for example. Currenlty, the furthest you can go is Mg_40.
-
-    &#34;&#34;&#34;
-    isotope_end = input(
-        &#34;Which isotope would you like to end with? (Enter as &#39;Mg_36&#39; for example.): &#34;)
-    print(f&#34;Ending with {isotope_end}...&#34;)
-    return isotope_end
-
 
 def notes():
     &#34;&#34;&#34;General Notes.
@@ -255,13 +221,13 @@ def set_I2_wedge(wedge_thickness):
     &#34;&#34;&#34;
     print(&#34;Setting I2_wedge...&#34;)
     pag.moveTo(60, 461)  # move to wedge button
-    pag.click()
+    pag.click(interval=1)
     pag.write(str(wedge_thickness))
     pag.moveTo(926, 223)  # set spectrometer after block
-    pag.click()
+    pag.click(interval=1)
     time.sleep(2)
     pag.moveTo(397, 398)  # select wedge profile
-    pag.click()
+    pag.click(interval=1)
     pag.moveTo(881, 394)  # move to calculate angle
     pag.click()
     time.sleep(10)  # wait
@@ -325,13 +291,13 @@ def get_thickness():
     pc.copy(&#34;&#34;)  # clear clipboard
     print(&#34;Retrieving thickness...&#34;)
     pag.moveTo(453, 38)  # calculations
-    pag.click()
+    pag.click(interval=1)
     pag.dragTo(504, 151, .5)  # Optimum target
-    time.sleep(.6)
+    time.sleep(1)
     pag.moveTo(381, 485)  # first ok
-    pag.click()
+    pag.click(interval=1.5)
     pag.moveTo(326, 655)  # second ok
-    pag.click()
+    pag.click(interval=1.5)
     time.sleep(20)
     pag.moveTo(260, 451)  # load thickness
     pag.click()
@@ -354,8 +320,6 @@ def get_thickness():
     return target_thickness
 
 # to retrive intensity
-
-
 def get_intensity(isotope, beam_element, beam_mass):
     &#34;&#34;&#34;Summary.
 
@@ -372,11 +336,11 @@ def get_intensity(isotope, beam_element, beam_mass):
     # print(x,y)
     pag.position()
     pag.moveTo(x, y)
-    pag.click(button=&#34;right&#34;)
+    pag.click(button=&#34;right&#34;,interval=1)
     pag.moveTo(1483, 417)  # File save button
     pag.click()
     pag.moveTo(531, 339)  # file save text box
-    pag.click()
+    pag.click(interval=1)
     # desktop comes from top of the sript.
     filename = str(desktop) + r&#34;\data.txt&#34;
     print(f&#34;The file is being saved at the following location: {filename}&#34;)
@@ -603,11 +567,7 @@ def isotope_tuning_values(
         isotope_end,
         wedge_range):
     &#34;&#34;&#34;To find the best configuration using a Ca 48 beam.&#34;&#34;&#34;
-    set_projectile(
-        &#34;Ca&#34;,
-        140,
-        80,
-        48)  # set the beam here with element name, energy, intensity, atomic number
+    set_projectile(&#34;Ca&#34;,140,80,48)  # set the beam here with element name, energy, intensity, atomic number
     start = time.time()
     set_FP_slits(FP_slit_width)
     # if bool_value == True: #if you want to start from  a particular isotope
@@ -707,7 +667,7 @@ def show_pixels():
 <section>
 <h2 class="section-title" id="header-variables">Global variables</h2>
 <dl>
-<dt id="automation_4_lise.beam_info"><code class="name">var <span class="ident">beam_info</span></code></dt>
+<dt id="nuclear_gamma_tracker.implementation_file.beam_info"><code class="name">var <span class="ident">beam_info</span></code></dt>
 <dd>
 <div class="desc"><p>,
 "Se_82":{"Energy":140,"Intensity":45}, "Kr_78":{"Energy":150,"Intensity":25},
@@ -716,7 +676,7 @@ def show_pixels():
 "Sn_124":{"Energy":120,"Intensity":1.5} #incomplete but enough for our purposes
 }</p></div>
 </dd>
-<dt id="automation_4_lise.pixel_locations"><code class="name">var <span class="ident">pixel_locations</span></code></dt>
+<dt id="nuclear_gamma_tracker.implementation_file.pixel_locations"><code class="name">var <span class="ident">pixel_locations</span></code></dt>
 <dd>
 <div class="desc"><p>An array of dictionaries (c++ maps). "data" is the key for the corresponding isotope and
 its value is an array of data. Using zeros as place holders for intialization.</p></div>
@@ -726,7 +686,7 @@ its value is an array of data. Using zeros as place holders for intialization.</
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt id="automation_4_lise.FP_slit_X_transmission_percent"><code class="name flex">
+<dt id="nuclear_gamma_tracker.implementation_file.FP_slit_X_transmission_percent"><code class="name flex">
 <span>def <span class="ident">FP_slit_X_transmission_percent</span></span>(<span>)</span>
 </code></dt>
 <dd>
@@ -756,7 +716,7 @@ there is very litter dispersion in y direction.</p></div>
     return FP_x_space_transmission[4]  # percent value</code></pre>
 </details>
 </dd>
-<dt id="automation_4_lise.get_intensity"><code class="name flex">
+<dt id="nuclear_gamma_tracker.implementation_file.get_intensity"><code class="name flex">
 <span>def <span class="ident">get_intensity</span></span>(<span>isotope, beam_element, beam_mass)</span>
 </code></dt>
 <dd>
@@ -784,11 +744,11 @@ for the beam element.</p></div>
     # print(x,y)
     pag.position()
     pag.moveTo(x, y)
-    pag.click(button=&#34;right&#34;)
+    pag.click(button=&#34;right&#34;,interval=1)
     pag.moveTo(1483, 417)  # File save button
     pag.click()
     pag.moveTo(531, 339)  # file save text box
-    pag.click()
+    pag.click(interval=1)
     # desktop comes from top of the sript.
     filename = str(desktop) + r&#34;\data.txt&#34;
     print(f&#34;The file is being saved at the following location: {filename}&#34;)
@@ -822,7 +782,7 @@ for the beam element.</p></div>
         return _intensity[4], flag</code></pre>
 </details>
 </dd>
-<dt id="automation_4_lise.get_thickness"><code class="name flex">
+<dt id="nuclear_gamma_tracker.implementation_file.get_thickness"><code class="name flex">
 <span>def <span class="ident">get_thickness</span></span>(<span>)</span>
 </code></dt>
 <dd>
@@ -837,13 +797,13 @@ for the beam element.</p></div>
     pc.copy(&#34;&#34;)  # clear clipboard
     print(&#34;Retrieving thickness...&#34;)
     pag.moveTo(453, 38)  # calculations
-    pag.click()
+    pag.click(interval=1)
     pag.dragTo(504, 151, .5)  # Optimum target
-    time.sleep(.6)
+    time.sleep(1)
     pag.moveTo(381, 485)  # first ok
-    pag.click()
+    pag.click(interval=1.5)
     pag.moveTo(326, 655)  # second ok
-    pag.click()
+    pag.click(interval=1.5)
     time.sleep(20)
     pag.moveTo(260, 451)  # load thickness
     pag.click()
@@ -866,7 +826,7 @@ for the beam element.</p></div>
     return target_thickness</code></pre>
 </details>
 </dd>
-<dt id="automation_4_lise.isotope_loop"><code class="name flex">
+<dt id="nuclear_gamma_tracker.implementation_file.isotope_loop"><code class="name flex">
 <span>def <span class="ident">isotope_loop</span></span>(<span>)</span>
 </code></dt>
 <dd>
@@ -955,7 +915,7 @@ has already been determined that the best beam is Ca 48.</p></div>
     print(f&#34;It took {end-start} to run everything.&#34;)</code></pre>
 </details>
 </dd>
-<dt id="automation_4_lise.isotope_tuning_values"><code class="name flex">
+<dt id="nuclear_gamma_tracker.implementation_file.isotope_tuning_values"><code class="name flex">
 <span>def <span class="ident">isotope_tuning_values</span></span>(<span>FP_slit_width, isotope_start, isotope_end, wedge_range)</span>
 </code></dt>
 <dd>
@@ -970,11 +930,7 @@ has already been determined that the best beam is Ca 48.</p></div>
         isotope_end,
         wedge_range):
     &#34;&#34;&#34;To find the best configuration using a Ca 48 beam.&#34;&#34;&#34;
-    set_projectile(
-        &#34;Ca&#34;,
-        140,
-        80,
-        48)  # set the beam here with element name, energy, intensity, atomic number
+    set_projectile(&#34;Ca&#34;,140,80,48)  # set the beam here with element name, energy, intensity, atomic number
     start = time.time()
     set_FP_slits(FP_slit_width)
     # if bool_value == True: #if you want to start from  a particular isotope
@@ -1047,7 +1003,7 @@ has already been determined that the best beam is Ca 48.</p></div>
     print(f&#34;It took {(end-start)/60.0} minutes to run everything.&#34;)</code></pre>
 </details>
 </dd>
-<dt id="automation_4_lise.notes"><code class="name flex">
+<dt id="nuclear_gamma_tracker.implementation_file.notes"><code class="name flex">
 <span>def <span class="ident">notes</span></span>(<span>)</span>
 </code></dt>
 <dd>
@@ -1070,7 +1026,7 @@ Could do this with a shell script or here (in the python script).</p></div>
     &#34;&#34;&#34;</code></pre>
 </details>
 </dd>
-<dt id="automation_4_lise.purity_percent"><code class="name flex">
+<dt id="nuclear_gamma_tracker.implementation_file.purity_percent"><code class="name flex">
 <span>def <span class="ident">purity_percent</span></span>(<span>fragment_isotope)</span>
 </code></dt>
 <dd>
@@ -1149,7 +1105,7 @@ passinng through the FP_PIN (focal plane Particle in) detector.</p></div>
     return percent</code></pre>
 </details>
 </dd>
-<dt id="automation_4_lise.save"><code class="name flex">
+<dt id="nuclear_gamma_tracker.implementation_file.save"><code class="name flex">
 <span>def <span class="ident">save</span></span>(<span>)</span>
 </code></dt>
 <dd>
@@ -1165,7 +1121,7 @@ passinng through the FP_PIN (focal plane Particle in) detector.</p></div>
     file.close()</code></pre>
 </details>
 </dd>
-<dt id="automation_4_lise.set_FP_slits"><code class="name flex">
+<dt id="nuclear_gamma_tracker.implementation_file.set_FP_slits"><code class="name flex">
 <span>def <span class="ident">set_FP_slits</span></span>(<span>slit_width)</span>
 </code></dt>
 <dd>
@@ -1197,7 +1153,7 @@ between the purity of the beam and yield.</p></div>
     pag.click()</code></pre>
 </details>
 </dd>
-<dt id="automation_4_lise.set_I2_wedge"><code class="name flex">
+<dt id="nuclear_gamma_tracker.implementation_file.set_I2_wedge"><code class="name flex">
 <span>def <span class="ident">set_I2_wedge</span></span>(<span>wedge_thickness)</span>
 </code></dt>
 <dd>
@@ -1221,13 +1177,13 @@ you are interested and reduce the amount of contaminants.</p></div>
     &#34;&#34;&#34;
     print(&#34;Setting I2_wedge...&#34;)
     pag.moveTo(60, 461)  # move to wedge button
-    pag.click()
+    pag.click(interval=1)
     pag.write(str(wedge_thickness))
     pag.moveTo(926, 223)  # set spectrometer after block
-    pag.click()
+    pag.click(interval=1)
     time.sleep(2)
     pag.moveTo(397, 398)  # select wedge profile
-    pag.click()
+    pag.click(interval=1)
     pag.moveTo(881, 394)  # move to calculate angle
     pag.click()
     time.sleep(10)  # wait
@@ -1250,7 +1206,7 @@ you are interested and reduce the amount of contaminants.</p></div>
     return str(angle)</code></pre>
 </details>
 </dd>
-<dt id="automation_4_lise.set_fragment"><code class="name flex">
+<dt id="nuclear_gamma_tracker.implementation_file.set_fragment"><code class="name flex">
 <span>def <span class="ident">set_fragment</span></span>(<span>fragment, A)</span>
 </code></dt>
 <dd>
@@ -1288,7 +1244,7 @@ yourself (besided debugging/upgrading reasons).</p></div>
     time.sleep(1)</code></pre>
 </details>
 </dd>
-<dt id="automation_4_lise.set_projectile"><code class="name flex">
+<dt id="nuclear_gamma_tracker.implementation_file.set_projectile"><code class="name flex">
 <span>def <span class="ident">set_projectile</span></span>(<span>projectile_name, energy, intensity, A)</span>
 </code></dt>
 <dd>
@@ -1335,7 +1291,7 @@ intensity, A.</p>
     time.sleep(1)</code></pre>
 </details>
 </dd>
-<dt id="automation_4_lise.show_pixels"><code class="name flex">
+<dt id="nuclear_gamma_tracker.implementation_file.show_pixels"><code class="name flex">
 <span>def <span class="ident">show_pixels</span></span>(<span>)</span>
 </code></dt>
 <dd>
@@ -1357,7 +1313,7 @@ intensity, A.</p>
         print(&#39;\n&#39;)</code></pre>
 </details>
 </dd>
-<dt id="automation_4_lise.slice_array"><code class="name flex">
+<dt id="nuclear_gamma_tracker.implementation_file.slice_array"><code class="name flex">
 <span>def <span class="ident">slice_array</span></span>(<span>arr, start)</span>
 </code></dt>
 <dd>
@@ -1389,7 +1345,7 @@ intensity, A.</p>
     return new_array  # return a sliced array containing dictionaries from starting isotope</code></pre>
 </details>
 </dd>
-<dt id="automation_4_lise.tune_spectrometer"><code class="name flex">
+<dt id="nuclear_gamma_tracker.implementation_file.tune_spectrometer"><code class="name flex">
 <span>def <span class="ident">tune_spectrometer</span></span>(<span>)</span>
 </code></dt>
 <dd>
@@ -1417,29 +1373,34 @@ intensity, A.</p>
 <ul></ul>
 </div>
 <ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="nuclear_gamma_tracker" href="index.html">nuclear_gamma_tracker</a></code></li>
+</ul>
+</li>
 <li><h3><a href="#header-variables">Global variables</a></h3>
 <ul class="">
-<li><code><a title="automation_4_lise.beam_info" href="#automation_4_lise.beam_info">beam_info</a></code></li>
-<li><code><a title="automation_4_lise.pixel_locations" href="#automation_4_lise.pixel_locations">pixel_locations</a></code></li>
+<li><code><a title="nuclear_gamma_tracker.implementation_file.beam_info" href="#nuclear_gamma_tracker.implementation_file.beam_info">beam_info</a></code></li>
+<li><code><a title="nuclear_gamma_tracker.implementation_file.pixel_locations" href="#nuclear_gamma_tracker.implementation_file.pixel_locations">pixel_locations</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
-<li><code><a title="automation_4_lise.FP_slit_X_transmission_percent" href="#automation_4_lise.FP_slit_X_transmission_percent">FP_slit_X_transmission_percent</a></code></li>
-<li><code><a title="automation_4_lise.get_intensity" href="#automation_4_lise.get_intensity">get_intensity</a></code></li>
-<li><code><a title="automation_4_lise.get_thickness" href="#automation_4_lise.get_thickness">get_thickness</a></code></li>
-<li><code><a title="automation_4_lise.isotope_loop" href="#automation_4_lise.isotope_loop">isotope_loop</a></code></li>
-<li><code><a title="automation_4_lise.isotope_tuning_values" href="#automation_4_lise.isotope_tuning_values">isotope_tuning_values</a></code></li>
-<li><code><a title="automation_4_lise.notes" href="#automation_4_lise.notes">notes</a></code></li>
-<li><code><a title="automation_4_lise.purity_percent" href="#automation_4_lise.purity_percent">purity_percent</a></code></li>
-<li><code><a title="automation_4_lise.save" href="#automation_4_lise.save">save</a></code></li>
-<li><code><a title="automation_4_lise.set_FP_slits" href="#automation_4_lise.set_FP_slits">set_FP_slits</a></code></li>
-<li><code><a title="automation_4_lise.set_I2_wedge" href="#automation_4_lise.set_I2_wedge">set_I2_wedge</a></code></li>
-<li><code><a title="automation_4_lise.set_fragment" href="#automation_4_lise.set_fragment">set_fragment</a></code></li>
-<li><code><a title="automation_4_lise.set_projectile" href="#automation_4_lise.set_projectile">set_projectile</a></code></li>
-<li><code><a title="automation_4_lise.show_pixels" href="#automation_4_lise.show_pixels">show_pixels</a></code></li>
-<li><code><a title="automation_4_lise.slice_array" href="#automation_4_lise.slice_array">slice_array</a></code></li>
-<li><code><a title="automation_4_lise.tune_spectrometer" href="#automation_4_lise.tune_spectrometer">tune_spectrometer</a></code></li>
+<li><code><a title="nuclear_gamma_tracker.implementation_file.FP_slit_X_transmission_percent" href="#nuclear_gamma_tracker.implementation_file.FP_slit_X_transmission_percent">FP_slit_X_transmission_percent</a></code></li>
+<li><code><a title="nuclear_gamma_tracker.implementation_file.get_intensity" href="#nuclear_gamma_tracker.implementation_file.get_intensity">get_intensity</a></code></li>
+<li><code><a title="nuclear_gamma_tracker.implementation_file.get_thickness" href="#nuclear_gamma_tracker.implementation_file.get_thickness">get_thickness</a></code></li>
+<li><code><a title="nuclear_gamma_tracker.implementation_file.isotope_loop" href="#nuclear_gamma_tracker.implementation_file.isotope_loop">isotope_loop</a></code></li>
+<li><code><a title="nuclear_gamma_tracker.implementation_file.isotope_tuning_values" href="#nuclear_gamma_tracker.implementation_file.isotope_tuning_values">isotope_tuning_values</a></code></li>
+<li><code><a title="nuclear_gamma_tracker.implementation_file.notes" href="#nuclear_gamma_tracker.implementation_file.notes">notes</a></code></li>
+<li><code><a title="nuclear_gamma_tracker.implementation_file.purity_percent" href="#nuclear_gamma_tracker.implementation_file.purity_percent">purity_percent</a></code></li>
+<li><code><a title="nuclear_gamma_tracker.implementation_file.save" href="#nuclear_gamma_tracker.implementation_file.save">save</a></code></li>
+<li><code><a title="nuclear_gamma_tracker.implementation_file.set_FP_slits" href="#nuclear_gamma_tracker.implementation_file.set_FP_slits">set_FP_slits</a></code></li>
+<li><code><a title="nuclear_gamma_tracker.implementation_file.set_I2_wedge" href="#nuclear_gamma_tracker.implementation_file.set_I2_wedge">set_I2_wedge</a></code></li>
+<li><code><a title="nuclear_gamma_tracker.implementation_file.set_fragment" href="#nuclear_gamma_tracker.implementation_file.set_fragment">set_fragment</a></code></li>
+<li><code><a title="nuclear_gamma_tracker.implementation_file.set_projectile" href="#nuclear_gamma_tracker.implementation_file.set_projectile">set_projectile</a></code></li>
+<li><code><a title="nuclear_gamma_tracker.implementation_file.show_pixels" href="#nuclear_gamma_tracker.implementation_file.show_pixels">show_pixels</a></code></li>
+<li><code><a title="nuclear_gamma_tracker.implementation_file.slice_array" href="#nuclear_gamma_tracker.implementation_file.slice_array">slice_array</a></code></li>
+<li><code><a title="nuclear_gamma_tracker.implementation_file.tune_spectrometer" href="#nuclear_gamma_tracker.implementation_file.tune_spectrometer">tune_spectrometer</a></code></li>
 </ul>
 </li>
 </ul>

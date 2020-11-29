@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.9.1" />
-<title>nuclear_gamma_tracker.start_calls API documentation</title>
+<title>nuclear_gamma_tracker.main_start API documentation</title>
 <meta name="description" content="Summary …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
@@ -19,23 +19,38 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>nuclear_gamma_tracker.start_calls</code></h1>
+<h1 class="title">Module <code>nuclear_gamma_tracker.main_start</code></h1>
 </header>
 <section id="section-intro">
 <p>Summary.</p>
-<p>Start calls to start the program. Relies on input that is given on terminal when
-auto_4_lise.py is called. See README section INFORMATION ABOUT SCRIPT</p>
+<p>Primary file to be called on terminal. Will begin the process of finding information
+for particular isotope. Run with the following command on terminal (from top-most directory): </p>
+<blockquote>
+<p>python -m nuclear_gamma_tracker.auto_4_lise.py
+<isotope_start> <isotope_end> <wedge_start>
+<wedge_end> <FP_width> -v
+</p>
+</blockquote>
+<p>Will prompt user to answer if LISE++ is running already with the GUI open. If not,
+answer "no" and it will locate the LISE++ image icon on your desktop and open it.</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">&#34;&#34;&#34;Summary.
 
-Start calls to start the program. Relies on input that is given on terminal when 
-auto_4_lise.py is called. See README section INFORMATION ABOUT SCRIPT
+
+Primary file to be called on terminal. Will begin the process of finding information
+for particular isotope. Run with the following command on terminal (from top-most directory): 
+
+&gt; python -m nuclear_gamma_tracker.auto_4_lise.py  &lt;isotope_start&gt; &lt;isotope_end&gt; &lt;wedge_start&gt;
+                           &lt;wedge_end&gt; &lt;FP_width&gt; -v  
+
+Will prompt user to answer if LISE++ is running already with the GUI open. If not, 
+answer &#34;no&#34; and it will locate the LISE++ image icon on your desktop and open it.
 &#34;&#34;&#34;
 
-from nuclear_gamma_tracker import automation_4_lise as a4l
+from nuclear_gamma_tracker import implementation_file as a4l
 import pyautogui as pag
 import argparse as ap
 import textwrap
@@ -45,7 +60,6 @@ import sys
 
 #list of isotopes that are currently allowed 
 isotopes = [&#39;Mg_32&#39;,&#39;Mg_33&#39;,&#39;Mg_34&#39;,&#39;Mg_35&#39;,&#39;Mg_36&#39;,&#39;Mg_37&#39;,&#39;Mg_38&#39;,&#39;Mg_40&#39;]
-
 
 &#34;&#34;&#34;
 #Here we create the parser
@@ -71,11 +85,21 @@ p = ap.ArgumentParser(formatter_class=ap.RawDescriptionHelpFormatter,
 
              The order of input to the parser goes as follows:
 
-             isotope_start isotope_end wedge_range_start wedge_range_end FP_width
+             If LISE++ is not open, place the &#39;-f&#39; to tell the parser it is the &#39;first time&#39;
+
+                -f isotope_start isotope_end wedge_range_start wedge_range_end FP_width -v
+
+             If LISE++ is already open, place the &#39;-nf&#39; to tell the parser it is &#39;not the first time&#39;
+                -nf isotope_start isotope_end wedge_range_start wedge_range_end FP_width -v
              
          &#39;&#39;&#39;))
     
+#Optional arguments
 p.add_argument(&#34;-v&#34;,&#34;--verbose&#34;,action=&#34;store_true&#34;,help=&#34;Prints input from user in a verbose manner.&#34;)
+p.add_argument(&#34;-f&#34;,&#34;--first_time&#34;,action=&#34;store_true&#34;,help=&#34;First time opening LISE++ optional argument&#34;,default=False)
+p.add_argument(&#34;-nf&#34;,&#34;--not_first_time&#34;,action=&#34;store_true&#34;,help=&#34;Not first time opening LISE++ optional argument&#34;,default=False)
+
+#Positional arguments 
 p.add_argument(&#34;isotope_start&#34;,type=str,help=&#34;Isotope to begin with.&#34;,nargs=&#34;?&#34;,default=&#34;Mg_32&#34;,choices = isotopes)
 p.add_argument(&#34;isotope_end&#34;,type=str,help=&#34;Isotope to end with.&#34;,nargs=&#34;?&#34;,default=&#34;Mg_40&#34;,choices = isotopes)
 p.add_argument(&#34;wedge_range_start&#34;, type = int, help = &#34;Starting value for wedge thickness at I2&#34;,
@@ -86,13 +110,26 @@ p.add_argument(&#34;FP_width&#34;, type = int, help = &#34;Width for the Focal P
            nargs=&#34;?&#34;,default = 10)
 
     #p.add_argument(&#34;echo&#34;, help= &#34;prints out your input&#34;)
+
 args = p.parse_args()
+
+#If LISE++ is not open
+if args.first_time:
+    print(&#34;meow&#34;)
+    _open = False
+
+#If LISE++ is open already
+if args.not_first_time:
+    print(&#34;bark&#34;)
+    _open = True
+
 iso_start =  args.isotope_start
 iso_end = args.isotope_end
 wedge_start = args.wedge_range_start
 wedge_end = args.wedge_range_end
 FP_slit_width= args.FP_width
 
+#if the &#39;-v&#39; is called on terminal
 if args.verbose:
     print(f&#34;Starting isotope: {args.isotope_start}\nEnding isotope: {args.isotope_end}\n&#34;)
     print(f&#34;Starting wedge thickness: {args.wedge_range_start}\nEnding wedge thickness: {args.wedge_range_end}\n&#34;)
@@ -103,7 +140,7 @@ else:
     print(f&#34;{args.FP_width}&#34;)
 &#34;&#34;&#34;
 
-def start():
+def start_and_open():
     &#34;&#34;&#34;Summary.
 
     Function to open LISE++ GUI from the icon logo that is on
@@ -143,7 +180,7 @@ def start():
     return FP_slit_width, isotope_start, isotope_end, wedge_range_list
 
 
-def start2():
+def start_already_open():
     &#34;&#34;&#34;Summary.
 
     If LISE++ GUI is already open and visible on your screen, this
@@ -155,7 +192,28 @@ def start2():
     wedge_range_list = np.arange(int(wedge_start), int(wedge_end) +100,100)
     print(wedge_range_list)
     time.sleep(2.5)
-    return FP_slit_width, isotope_start, isotope_end, wedge_range_list</code></pre>
+    return FP_slit_width, isotope_start, isotope_end, wedge_range_list
+
+def main(_open_):
+    &#34;&#34;&#34;Main function that calls all of the start functions&#34;&#34;&#34;
+
+    if _open_:
+        print(&#34;already opened!&#34;)
+        FP_slit_width, isotope_start, isotope_end, wedge_range = start_already_open()
+    else:
+        print(&#34;not opened!&#34;)
+        FP_slit_width, isotope_start, isotope_end, wedge_range = start_and_open()
+
+    a4l.isotope_tuning_values(
+        FP_slit_width,
+        isotope_start,
+        isotope_end,
+        wedge_range)
+
+if __name__ == &#34;__main__&#34;:
+    main(_open)
+
+#main(_open)</code></pre>
 </details>
 </section>
 <section>
@@ -163,7 +221,7 @@ def start2():
 <section>
 <h2 class="section-title" id="header-variables">Global variables</h2>
 <dl>
-<dt id="nuclear_gamma_tracker.start_calls.isotopes"><code class="name">var <span class="ident">isotopes</span></code></dt>
+<dt id="nuclear_gamma_tracker.main_start.isotopes"><code class="name">var <span class="ident">isotopes</span></code></dt>
 <dd>
 <div class="desc"><h1 id="here-we-create-the-parser">Here we create the parser</h1>
 <h1 id="the-input-for-the-parser-comes-from-input-given-to-auto_4_lisepy-on-terminal">the input for the parser comes from input given to auto_4_lise.py on terminal</h1>
@@ -187,12 +245,21 @@ allowed are betwen Mg_32 - Mg_40 (excluding Mg_39).</p>
 
          The order of input to the parser goes as follows:
 
-         isotope_start isotope_end wedge_range_start wedge_range_end FP_width
+         If LISE++ is not open, place the '-f' to tell the parser it is the 'first time'
+
+            -f isotope_start isotope_end wedge_range_start wedge_range_end FP_width -v
+
+         If LISE++ is already open, place the '-nf' to tell the parser it is 'not the first time'
+            -nf isotope_start isotope_end wedge_range_start wedge_range_end FP_width -v
 
      '''))
 </code></pre>
+<h1 id="optional-arguments">Optional arguments</h1>
 <p>p.add_argument("-v","&ndash;verbose",action="store_true",help="Prints input from user in a verbose manner.")
-p.add_argument("isotope_start",type=str,help="Isotope to begin with.",nargs="?",default="Mg_32",choices = isotopes)
+p.add_argument("-f","&ndash;first_time",action="store_true",help="First time opening LISE++ optional argument",default=False)
+p.add_argument("-nf","&ndash;not_first_time",action="store_true",help="Not first time opening LISE++ optional argument",default=False)</p>
+<h1 id="positional-arguments">Positional arguments</h1>
+<p>p.add_argument("isotope_start",type=str,help="Isotope to begin with.",nargs="?",default="Mg_32",choices = isotopes)
 p.add_argument("isotope_end",type=str,help="Isotope to end with.",nargs="?",default="Mg_40",choices = isotopes)
 p.add_argument("wedge_range_start", type = int, help = "Starting value for wedge thickness at I2",
 nargs="?",default = 2300)
@@ -202,13 +269,22 @@ p.add_argument("FP_width", type = int, help = "Width for the Focal Plane (FP) in
 nargs="?",default = 10)</p>
 <pre><code>#p.add_argument("echo", help= "prints out your input")
 </code></pre>
-<p>args = p.parse_args()
-iso_start =
+<p>args = p.parse_args()</p>
+<h1 id="if-lise-is-not-open">If LISE++ is not open</h1>
+<p>if args.first_time:
+print("meow")
+_open = False</p>
+<h1 id="if-lise-is-open-already">If LISE++ is open already</h1>
+<p>if args.not_first_time:
+print("bark")
+_open = True</p>
+<p>iso_start =
 args.isotope_start
 iso_end = args.isotope_end
 wedge_start = args.wedge_range_start
 wedge_end = args.wedge_range_end
 FP_slit_width= args.FP_width</p>
+<h1 id="if-the-v-is-called-on-terminal">if the '-v' is called on terminal</h1>
 <p>if args.verbose:
 print(f"Starting isotope: {args.isotope_start}
 Ending isotope: {args.isotope_end}
@@ -229,8 +305,60 @@ print(f"{args.FP_width}")</p></div>
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt id="nuclear_gamma_tracker.start_calls.start"><code class="name flex">
-<span>def <span class="ident">start</span></span>(<span>)</span>
+<dt id="nuclear_gamma_tracker.main_start.main"><code class="name flex">
+<span>def <span class="ident">main</span></span>(<span>_open_)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Main function that calls all of the start functions</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def main(_open_):
+    &#34;&#34;&#34;Main function that calls all of the start functions&#34;&#34;&#34;
+
+    if _open_:
+        print(&#34;already opened!&#34;)
+        FP_slit_width, isotope_start, isotope_end, wedge_range = start_already_open()
+    else:
+        print(&#34;not opened!&#34;)
+        FP_slit_width, isotope_start, isotope_end, wedge_range = start_and_open()
+
+    a4l.isotope_tuning_values(
+        FP_slit_width,
+        isotope_start,
+        isotope_end,
+        wedge_range)</code></pre>
+</details>
+</dd>
+<dt id="nuclear_gamma_tracker.main_start.start_already_open"><code class="name flex">
+<span>def <span class="ident">start_already_open</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Summary.</p>
+<p>If LISE++ GUI is already open and visible on your screen, this
+would be the start function that is to be used.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def start_already_open():
+    &#34;&#34;&#34;Summary.
+
+    If LISE++ GUI is already open and visible on your screen, this
+    would be the start function that is to be used.
+    &#34;&#34;&#34;
+    isotope_start = iso_start
+    isotope_end = iso_end
+    
+    wedge_range_list = np.arange(int(wedge_start), int(wedge_end) +100,100)
+    print(wedge_range_list)
+    time.sleep(2.5)
+    return FP_slit_width, isotope_start, isotope_end, wedge_range_list</code></pre>
+</details>
+</dd>
+<dt id="nuclear_gamma_tracker.main_start.start_and_open"><code class="name flex">
+<span>def <span class="ident">start_and_open</span></span>(<span>)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Summary.</p>
@@ -240,7 +368,7 @@ your desktop (very specific at the moment).</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def start():
+<pre><code class="python">def start_and_open():
     &#34;&#34;&#34;Summary.
 
     Function to open LISE++ GUI from the icon logo that is on
@@ -280,32 +408,6 @@ your desktop (very specific at the moment).</p></div>
     return FP_slit_width, isotope_start, isotope_end, wedge_range_list</code></pre>
 </details>
 </dd>
-<dt id="nuclear_gamma_tracker.start_calls.start2"><code class="name flex">
-<span>def <span class="ident">start2</span></span>(<span>)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Summary.</p>
-<p>If LISE++ GUI is already open and visible on your screen, this
-would be the start function that is to be used.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def start2():
-    &#34;&#34;&#34;Summary.
-
-    If LISE++ GUI is already open and visible on your screen, this
-    would be the start function that is to be used.
-    &#34;&#34;&#34;
-    isotope_start = iso_start
-    isotope_end = iso_end
-    
-    wedge_range_list = np.arange(int(wedge_start), int(wedge_end) +100,100)
-    print(wedge_range_list)
-    time.sleep(2.5)
-    return FP_slit_width, isotope_start, isotope_end, wedge_range_list</code></pre>
-</details>
-</dd>
 </dl>
 </section>
 <section>
@@ -324,13 +426,14 @@ would be the start function that is to be used.</p></div>
 </li>
 <li><h3><a href="#header-variables">Global variables</a></h3>
 <ul class="">
-<li><code><a title="nuclear_gamma_tracker.start_calls.isotopes" href="#nuclear_gamma_tracker.start_calls.isotopes">isotopes</a></code></li>
+<li><code><a title="nuclear_gamma_tracker.main_start.isotopes" href="#nuclear_gamma_tracker.main_start.isotopes">isotopes</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
-<li><code><a title="nuclear_gamma_tracker.start_calls.start" href="#nuclear_gamma_tracker.start_calls.start">start</a></code></li>
-<li><code><a title="nuclear_gamma_tracker.start_calls.start2" href="#nuclear_gamma_tracker.start_calls.start2">start2</a></code></li>
+<li><code><a title="nuclear_gamma_tracker.main_start.main" href="#nuclear_gamma_tracker.main_start.main">main</a></code></li>
+<li><code><a title="nuclear_gamma_tracker.main_start.start_already_open" href="#nuclear_gamma_tracker.main_start.start_already_open">start_already_open</a></code></li>
+<li><code><a title="nuclear_gamma_tracker.main_start.start_and_open" href="#nuclear_gamma_tracker.main_start.start_and_open">start_and_open</a></code></li>
 </ul>
 </li>
 </ul>

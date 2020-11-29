@@ -36,17 +36,20 @@ This file is meant to run some basic tests on functions found in
 &#34;&#34;&#34;
 
 import numpy as np
-from nuclear_gamma_tracker import automation_4_lise as a4l
+from nuclear_gamma_tracker import implementation_file as a4l
 import pytest
 #import sys
 # sys.path.append(&#34;..&#34;)  # Adds higher directory to python modules path.
 # print(sys.path)
 
+#NEED TO ADD MORE TESTS
+
+&#34;&#34;&#34;
 def test_iso_start():
-    &#34;&#34;&#34;Simple test to see if it retuns a string given a string.&#34;&#34;&#34;
+    #Simple test to see if it retuns a string given a string.
     out = a4l._isotope_start(&#34;Mg_33&#34;)
     assert isinstance(out, str)
-
+&#34;&#34;&#34;
 
 def test_arrayslicer():
     &#34;&#34;&#34;Checking if slice function is still returning array with dictionaries (maps).&#34;&#34;&#34;
@@ -100,21 +103,6 @@ def test_arrayslicer():
     assert np.array_equal(sliced_array, out_array)</code></pre>
 </details>
 </dd>
-<dt id="nuclear_gamma_tracker.tests.test_automation_4_lise.test_iso_start"><code class="name flex">
-<span>def <span class="ident">test_iso_start</span></span>(<span>)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Simple test to see if it retuns a string given a string.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def test_iso_start():
-    &#34;&#34;&#34;Simple test to see if it retuns a string given a string.&#34;&#34;&#34;
-    out = a4l._isotope_start(&#34;Mg_33&#34;)
-    assert isinstance(out, str)</code></pre>
-</details>
-</dd>
 </dl>
 </section>
 <section>
@@ -134,7 +122,6 @@ def test_arrayslicer():
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
 <li><code><a title="nuclear_gamma_tracker.tests.test_automation_4_lise.test_arrayslicer" href="#nuclear_gamma_tracker.tests.test_automation_4_lise.test_arrayslicer">test_arrayslicer</a></code></li>
-<li><code><a title="nuclear_gamma_tracker.tests.test_automation_4_lise.test_iso_start" href="#nuclear_gamma_tracker.tests.test_automation_4_lise.test_iso_start">test_iso_start</a></code></li>
 </ul>
 </li>
 </ul>
