@@ -70,7 +70,7 @@ else:
     print(f"{args.wedge_range_start}\n{args.wedge_range_end}")
     print(f"{args.FP_width}")
 
-def start():
+def start_and_open():
     """Summary.
 
     Function to open LISE++ GUI from the icon logo that is on
@@ -110,7 +110,7 @@ def start():
     return FP_slit_width, isotope_start, isotope_end, wedge_range_list
 
 
-def start2():
+def start_already_open():
     """Summary.
 
     If LISE++ GUI is already open and visible on your screen, this
