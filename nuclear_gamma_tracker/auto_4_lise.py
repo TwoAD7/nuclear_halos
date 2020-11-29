@@ -12,7 +12,7 @@ answer "no" and it will locate the LISE++ image icon on your desktop and open it
 """
 
 from nuclear_gamma_tracker import implementation_4_auto as a4l
-from nuclear_gamma_tracker import start_calls as strt
+from nuclear_gamma_tracker import start_calls as start 
 import sys 
 
 def main():
@@ -24,9 +24,9 @@ def main():
     print("Beginning the automation for LISE++...")
     res = input("Are you opening the program for the first time? (yes or no): ")
     if res == "yes":
-        FP_slit_width, isotope_start, isotope_end, wedge_range = strt.start()
+        FP_slit_width, isotope_start, isotope_end, wedge_range = start.start_and_open()
     else:
-        FP_slit_width, isotope_start, isotope_end, wedge_range = strt.start2()
+        FP_slit_width, isotope_start, isotope_end, wedge_range = start.start_already_open()
 
     a4l.isotope_tuning_values(
         FP_slit_width,
@@ -39,4 +39,5 @@ if __name__ == "__main__":
     #print("ran as main on terminal")
     main()
 
+#it seems as if main is not being called when run from top-most directory
 main()
