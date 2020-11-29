@@ -79,8 +79,6 @@ If you do not have pip installed, proceed to the following link to donwload pip:
  		positional arguments that are passed into _auto_4_lise.py_, run the following from the top-most directory 
  		- `python -m nuclear_gamma_tracker.start_calls.py -h`
 
- To view the contents of
-
 
 DATA STORAGE 
 ------------
