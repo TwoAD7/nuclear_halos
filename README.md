@@ -60,24 +60,23 @@ If you do not have pip installed, proceed to the following link to donwload pip:
   * https://phoenixnap.com/kb/install-pip-windows
 
 <u>There are three files that are responsible for all of tasks regarding LISE++</u>
- - automation_4_lise.py 
- 	- Implementation file containing all of functions that are called by  _start_calls.py_ and _auto_4_lise.py_
- - auto_4_lise.py
- 	- The interface script that is responsible for starting the program. This is the function that is to be
- 	called on terminal to begin te process. It is called with the following command on terminal:
- 		- `python -m nuclear_gamma_tracker.auto_4_lise.py <isotope_start> <isotope_end> <wedge_start>  
- 		<wedge_end> <FP_width> -v`
+ - `implementation_file.py` 
+ 	- Implementation file containing all of functions that are called by `main_start.py`
+ - `main_start.py`	
+ 	- The function to be called in the top-most directory on terminal to begin the process. The command to run the script is as follows:
+
+ 		`python -m nuclear_gamma_tracker.auto_4_lise.py -FLAG <isotope_start> <isotope_end> <wedge_start> <wedge_end> <FP_width> -v`
+
+ 			- '-FLAG'	   : Flag that tells the script if LISE++ is open or not. These have to be specified. You have two options:
+ 								`-f` : It is the first time you are opening LISE++
+ 								`-nf`: Not the first time you are opening LISE++ 
  			- Isotope start: Which Magnesium isotope you want to start with 
 			- Isotope end  : Which Magnesium isotope you want to end with
 			- Wedge start  : The starting wedge thickness at the I2 plane
 			- Wedge end    : The terminating wedge thickness at the I2 plane
 			- FP width     : The slit width of the focal plane slits at (used to control momentum acceptance of beam)
+			- '-v'		   : An optional argument that improves verbose output when command is run on terminal (as a double check) 
 
- - start_calls.py
- 	- As the name implies, this script is meant to call the start functions that are found in _auto_4_lise.py_
- 	- To view the contents of the parser in this script, and information about the 
- 		positional arguments that are passed into _auto_4_lise.py_, run the following from the top-most directory 
- 		- `python -m nuclear_gamma_tracker.start_calls.py -h`
 
 
 DATA STORAGE 
