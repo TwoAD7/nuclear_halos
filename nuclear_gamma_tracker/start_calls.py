@@ -4,7 +4,7 @@ Start calls to start the program. Relies on input that is given on terminal when
 auto_4_lise.py is called. See README section INFORMATION ABOUT SCRIPT
 """
 
-from nuclear_gamma_tracker import automation_4_lise as a4l
+from nuclear_gamma_tracker import implementation_4_auto as a4l
 import pyautogui as pag
 import argparse as ap
 import textwrap
