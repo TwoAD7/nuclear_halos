@@ -76,12 +76,10 @@ args = p.parse_args()
 
 #If LISE++ is not open
 if args.first_time:
-    print("meow")
     _open = False
 
 #If LISE++ is open already
 if args.not_first_time:
-    print("bark")
     _open = True
 
 iso_start =  args.isotope_start
@@ -115,10 +113,12 @@ def start_and_open():
     print(wedge_range_list)
     try:
         # find the image of the LISE++ icon,return coordinates for the cetner
+        print("here")
         x, y = pag.center(pag.locateOnScreen("images/LISE++.png"))
         pag.moveTo(x, y)
     except TypeError:
         # if the app. has been clicked before
+        print("and here")
         x, y = pag.center(pag.locateOnScreen("images/LISE++_2.png"))
         pag.moveTo(x, y)
     pag.doubleClick()
