@@ -76,6 +76,11 @@ If you do not have pip installed, proceed to the following link to donwload pip:
 			- Wedge end    : The terminating wedge thickness at the I2 plane
 			- FP width     : The slit width of the focal plane slits at (used to control momentum acceptance of beam)
 			- '-v'		   : An optional argument that improves verbose output when command is run on terminal (as a double check) 
+			
+To create conda environment with requirements file:
+
+conda env create --prefix=./envs --file=environment.yml  
+conda activate 
 
 
 
