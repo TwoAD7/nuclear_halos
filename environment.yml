@@ -12,5 +12,4 @@ dependencies:
   - pyperclip
   - csvkit
   - argparse
-  - sys
   - textwrap 
