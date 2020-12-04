@@ -65,15 +65,15 @@ If you do not have pip installed, proceed to the following link to donwload pip:
 
  		`python -m nuclear_gamma_tracker.auto_4_lise.py -FLAG <isotope_start> <isotope_end> <wedge_start> <wedge_end> <FP_width> -v`
 
- 			- '-FLAG'	   : Flag that tells the script if LISE++ is open or not. These have to be specified. You have two options:
+ 			- '-FLAG'	    : Flag that tells the script if LISE++ is open or not. These have to be specified. You have two options:
  								`-f` : It is the first time you are opening LISE++
  								`-nf`: Not the first time you are opening LISE++ 
- 			- Isotope start: Which Magnesium isotope you want to start with 
-			- Isotope end  : Which Magnesium isotope you want to end with
-			- Wedge start  : The starting wedge thickness at the I2 plane
-			- Wedge end    : The terminating wedge thickness at the I2 plane
-			- FP width     : The slit width of the focal plane slits at (used to control momentum acceptance of beam)
-			- '-v'		   : An optional argument that improves verbose output when command is run on terminal (as a double check) 
+ 			- Isotope start : Which Magnesium isotope you want to start with 
+			- Isotope end   : Which Magnesium isotope you want to end with
+			- Wedge start   : The starting wedge thickness at the I2 plane
+			- Wedge end     : The terminating wedge thickness at the I2 plane
+			- FP width      : The slit width of the focal plane slits at (used to control momentum acceptance of beam)
+			- '-v'			: An optional argument that improves verbose output when command is run on terminal (as a double check) 
 
 	- To view more information as to what the parser requires when calling `main_start.py` witht the command above, run the following from the top most directory: 
 		- `python -m nuclear_gamma_tracker.main_start.py -h`
