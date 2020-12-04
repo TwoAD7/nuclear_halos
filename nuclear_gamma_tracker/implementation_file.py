@@ -20,7 +20,6 @@ import csv
 import os
 import platform
 import pyautogui as pag
-import matplotlib.pyplot as plt
 import pyperclip as pc
 import pandas as pd
 
