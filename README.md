@@ -75,6 +75,9 @@ If you do not have pip installed, proceed to the following link to donwload pip:
 			- FP width     : The slit width of the focal plane slits at (used to control momentum acceptance of beam)
 			- '-v'		   : An optional argument that improves verbose output when command is run on terminal (as a double check) 
 
+	- To view more information as to what the parser requires when calling `main_start.py` witht the command above, run the following from the top most directory: 
+		- `python -m nuclear_gamma_tracker.main_start.py -h`
+
 To run with a conda environment
 -------------------------------
 
