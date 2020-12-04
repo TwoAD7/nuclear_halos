@@ -16,8 +16,9 @@ LISE++
 For general information about LISE++, go to the following website
  * http://lise.nscl.msu.edu/lise.html
 
-Follow the instructions that come with the installation of LISE++ to utilize this package. After LISE++ has been installed, make sure to have a shortcut (the logo) on your desktop as this package utilizes on finding the icon on your desktop. That is the way it is currently set up, later updates will work on ridding of the dependence on the icon to run the 
-script.
+Follow the instructions that come with the installation of LISE++ to utilize this package. After LISE++ has been installed, make sure to have a shortcut 
+(the logo) on your desktop as this package utilizes on finding the icon on your desktop. When running the package, make sure the LISE++ icon is visible on your desktop.
+That is the way it is currently set up, future updates will work on ridding the dependence on the icon to run the script.
 
 Future updates will include the ability to use any isotope on the nuclear chart that LISE++ offers and update to the 
 FRIB configuration as the Coupled Cyclotron Facility (CCF) was shutdow November 15th, 2020. 
@@ -39,15 +40,12 @@ This should open python. If an error is invoked, you will need to install python
 
 The following modules are required to run:
  - pyautogui 
- - matplotlib 
  - pyperclip
  - pandas
  - os 
  - platform 
  - time 
- - numpy 
- - sys 
- - textwrap 
+ - numpy  
  - argparse 
 
 If they are not installed, they can be installed via the following command in your windows terminal:
@@ -59,7 +57,7 @@ If that does not work, try the following:
 If you do not have pip installed, proceed to the following link to donwload pip:
   * https://phoenixnap.com/kb/install-pip-windows
 
-<u>There are three files that are responsible for all of tasks regarding LISE++</u>
+<u>There are two files that are responsible for all of tasks regarding LISE++</u>
  - `implementation_file.py` 
  	- Implementation file containing all of functions that are called by `main_start.py`
  - `main_start.py`	
@@ -76,13 +74,18 @@ If you do not have pip installed, proceed to the following link to donwload pip:
 			- Wedge end    : The terminating wedge thickness at the I2 plane
 			- FP width     : The slit width of the focal plane slits at (used to control momentum acceptance of beam)
 			- '-v'		   : An optional argument that improves verbose output when command is run on terminal (as a double check) 
-			
-To create conda environment with requirements file:
 
-conda env create --prefix=./envs --file=environment.yml  
-conda activate 
+To create conda environment with requirements file that is provided:
+- `conda env create --prefix ./envs --file environment.yml`  
+- `conda activate`
 
+To get out of the environment once you are done: 
+- `conda deactivate` 
 
+To remove the environment from your machine (if you wish to do so): 
+- ` conda remove --name NAME_OF_ENVIRONMENT --all`
+
+This should set the environment 
 
 DATA STORAGE 
 ------------
