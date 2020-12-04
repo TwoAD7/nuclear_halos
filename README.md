@@ -91,7 +91,6 @@ To get out of the environment once you are done:
 To remove the environment from your machine (if you wish to do so): 
 - ` conda remove --name NAME_OF_ENVIRONMENT --all`
 
-This should set the environment 
 
 DATA STORAGE 
 ------------
