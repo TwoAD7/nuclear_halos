@@ -113,12 +113,10 @@ def start_and_open():
     print(wedge_range_list)
     try:
         # find the image of the LISE++ icon,return coordinates for the cetner
-        print("here")
         x, y = pag.center(pag.locateOnScreen("images/LISE++.png"))
         pag.moveTo(x, y)
     except TypeError:
         # if the app. has been clicked before
-        print("and here")
         x, y = pag.center(pag.locateOnScreen("images/LISE++_2.png"))
         pag.moveTo(x, y)
     pag.doubleClick()
