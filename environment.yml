@@ -2,14 +2,12 @@ channels:
   - defaults
   - conda-forge
 dependencies:
-  - matplotlib
   - pandas
   - pytest
-  - jupyter
   - pdoc3
+  - pip 
   - numpy
   - pyautogui
   - pyperclip
   - csvkit
   - argparse
-  - textwrap 
