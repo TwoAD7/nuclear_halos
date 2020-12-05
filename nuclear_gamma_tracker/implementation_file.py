@@ -129,7 +129,7 @@ def set_projectile(projectile_name, energy, intensity, A):
     """
     print("Setting projectile...")
     pag.moveTo(16, 124)  # projectile button
-    pag.click()
+    pag.click(interval=.5)
     pag.moveTo(262, 213)  # element text box
     pag.doubleClick()
     pag.write(projectile_name)
@@ -143,7 +143,7 @@ def set_projectile(projectile_name, energy, intensity, A):
     pag.doubleClick()
     pag.write(str(intensity))
     pag.moveTo(269, 445)
-    pag.click()
+    pag.click(interval=.5)
     time.sleep(1)
 
 # to set the Focal Plane (FP) slits
@@ -331,7 +331,7 @@ def get_intensity(isotope, beam_element, beam_mass):
         _intensity = _intensity.split()
         # intensity value
         print(
-            f"The intensity for {isotope} with {beam_element} {beam_mass} is {_intensity[4]}.")
+            f"The intensity for {isotope} with {beam_element} {beam_mass} is {_intensity[4]} pps.")
         return _intensity[4], flag
 
 # retrieve the transmission in X-space
@@ -404,7 +404,7 @@ def purity_percent(fragment_isotope):
     # df =
     # pd.read_csv("C:\\Users\Owner\Desktop\pps_junk.txt",error_bad_lines=False)
     # #path to temporary file. NEED TO UPDATE
-    print(f"Size of data frame is {df.size}.")
+    #print(f"Size of data frame is {df.size}.")
     _string = df.iloc[5, 0]  # get the pps for isotope in question
     _string = _string.split()
     isotope_fragment = _string[13]  # grab pps value
@@ -576,7 +576,7 @@ def isotope_tuning_values(
             #FP_x_space_transmission = FP_slit_X_transmission_percent()
             # pass in the name of the fragment isotope
             _purity_percent = purity_percent(iso[0] + iso[1])
-            print(f"Purity is {_purity_percent}")
+            print(f"Purity is {_purity_percent} %")
             df.loc[count] = [
                 29.5,
                 frag_intensity,
@@ -589,10 +589,23 @@ def isotope_tuning_values(
             wedge_thickness = wedge_thickness + 100
             print(f"Have gone through {count} iterations")
             print(df)
-        df.to_csv(
-            f"{iso[0]}_{iso[1]}_finetune_{FP_slit_width}_data_LISE++.csv")
-        print(
-            f"File saved as: {iso[0]}_{iso[1]}_finetune_{FP_slit_width}_data_LISE++.csv")
+
+        path = os.path.join(".","data_files")
+        directory_check = os.path.isdir(path)
+        if directory_check == True:
+            print("Hey")
+            df.to_csv(f"./{path}/{iso[0]}_{iso[1]}_finetune_{FP_slit_width}_data_LISE++.csv")
+            print(f"File saved in {path} as: {iso[0]}_{iso[1]}_finetune_{FP_slit_width}_data_LISE++.csv")
+        if directory_check == False:
+            print(f"Creating the following directory {path}")
+            os.mkdir(path) 
+            df.to_csv(f"./{path}/{iso[0]}_{iso[1]}_finetune_{FP_slit_width}_data_LISE++.csv")
+            print(f"File saved in {path} as: {iso[0]}_{iso[1]}_finetune_{FP_slit_width}_data_LISE++.csv")
+
+        #df.to_csv(
+         #   f"./{path}/{iso[0]}_{iso[1]}_finetune_{FP_slit_width}_data_LISE++.csv")
+        #print(
+        #    f"File saved as: {iso[0]}_{iso[1]}_finetune_{FP_slit_width}_data_LISE++.csv")
         del df
         if dic['isotope'] == isotope_end:
             print(f"YOU HAVE REACHED {isotope_end}!")

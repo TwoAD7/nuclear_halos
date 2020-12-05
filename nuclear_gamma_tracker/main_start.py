@@ -120,7 +120,7 @@ def start_and_open():
         x, y = pag.center(pag.locateOnScreen("images/LISE++_2.png"))
         pag.moveTo(x, y)
     pag.doubleClick()
-    time.sleep(2.5)
+    time.sleep(5)
     pag.moveTo(18, 44)  # file
     pag.doubleClick()
     pag.dragTo(112, 257, .5)  # configuration
@@ -128,12 +128,12 @@ def start_and_open():
     pag.moveTo(825, 251)  # load
     pag.click(interval=1)
     pag.moveTo(154, 326)  # textbox
-    pag.click(interval=.5)
+    pag.click(interval=1)
     pag.write("NSCL")
     pag.moveTo(471, 323)  # Open button
-    pag.click()
+    pag.click(interval=1)
     pag.moveTo(95, 213)  # A1900 file
-    pag.click()
+    pag.click(interval=1)
     pag.moveTo(471, 323)  # Open button
     pag.click()
     return FP_slit_width, isotope_start, isotope_end, wedge_range_list
