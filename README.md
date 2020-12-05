@@ -24,6 +24,9 @@ Future updates will include the ability to use any isotope on the nuclear chart 
 FRIB configuration as the Coupled Cyclotron Facility (CCF) was shutdow November 15th, 2020. 
 
 
+A link to a video presentation can be found at:
+ * https://youtu.be/3AMZJQKd63M
+
 INFORMATION ABOUT RUNNING SCRIPT:
 ----------------------------------
 
