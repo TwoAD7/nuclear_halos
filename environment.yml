@@ -4,10 +4,12 @@ channels:
 dependencies:
   - pandas
   - pytest
-  - pdoc3
   - pip 
   - numpy
-  - pyautogui
   - pyperclip
   - csvkit
-  - argparse
+  - jupyter
+  - pylint
+  - pip:
+    - pyautogui
+    - pdoc3

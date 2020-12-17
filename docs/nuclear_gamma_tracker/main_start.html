@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.9.1" />
+<meta name="generator" content="pdoc 0.9.2" />
 <title>nuclear_gamma_tracker.main_start API documentation</title>
 <meta name="description" content="Summary …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
@@ -58,88 +58,6 @@ import numpy as np
 import time
 import sys
 
-#list of isotopes that are currently allowed 
-isotopes = [&#39;Mg_32&#39;,&#39;Mg_33&#39;,&#39;Mg_34&#39;,&#39;Mg_35&#39;,&#39;Mg_36&#39;,&#39;Mg_37&#39;,&#39;Mg_38&#39;,&#39;Mg_40&#39;]
-
-&#34;&#34;&#34;
-#Here we create the parser
-#the input for the parser comes from input given to auto_4_lise.py on terminal
-p = ap.ArgumentParser(formatter_class=ap.RawDescriptionHelpFormatter,
-        description=textwrap.dedent(&#39;&#39;&#39;\
-                Useful Information 
-        ----------------------------------
-             The range of Magnesium (Mg) isotopes that are currently 
-             allowed are betwen Mg_32 - Mg_40 (excluding Mg_39).
-             
-             If no starting or ending Mg isotope is 
-             specified, default values are:
-             
-             isotope_start=&#39;Mg_32&#39;
-             isotope_start=&#39;Mg_40&#39;
-             
-             Enter the Focal Plane (FP) slit distance as an integer.
-             This value is in milimeters.
-
-             Two input values are required to specify the start and end 
-             of the different values of the wedge thickness range. 
-
-             The order of input to the parser goes as follows:
-
-             If LISE++ is not open, place the &#39;-f&#39; to tell the parser it is the &#39;first time&#39;
-
-                -f isotope_start isotope_end wedge_range_start wedge_range_end FP_width -v
-
-             If LISE++ is already open, place the &#39;-nf&#39; to tell the parser it is &#39;not the first time&#39;
-                -nf isotope_start isotope_end wedge_range_start wedge_range_end FP_width -v
-             
-         &#39;&#39;&#39;))
-    
-#Optional arguments
-p.add_argument(&#34;-v&#34;,&#34;--verbose&#34;,action=&#34;store_true&#34;,help=&#34;Prints input from user in a verbose manner.&#34;)
-p.add_argument(&#34;-f&#34;,&#34;--first_time&#34;,action=&#34;store_true&#34;,help=&#34;First time opening LISE++ optional argument&#34;,default=False)
-p.add_argument(&#34;-nf&#34;,&#34;--not_first_time&#34;,action=&#34;store_true&#34;,help=&#34;Not first time opening LISE++ optional argument&#34;,default=False)
-
-#Positional arguments 
-p.add_argument(&#34;isotope_start&#34;,type=str,help=&#34;Isotope to begin with.&#34;,nargs=&#34;?&#34;,default=&#34;Mg_32&#34;,choices = isotopes)
-p.add_argument(&#34;isotope_end&#34;,type=str,help=&#34;Isotope to end with.&#34;,nargs=&#34;?&#34;,default=&#34;Mg_40&#34;,choices = isotopes)
-p.add_argument(&#34;wedge_range_start&#34;, type = int, help = &#34;Starting value for wedge thickness at I2&#34;,
-           nargs=&#34;?&#34;,default = 2300)
-p.add_argument(&#34;wedge_range_end&#34;, type = int, help = &#34;Ending value for wedge thickness at I2&#34;,
-           nargs=&#34;?&#34;,default = 3100)
-p.add_argument(&#34;FP_width&#34;, type = int, help = &#34;Width for the Focal Plane (FP) in mm.&#34;,
-           nargs=&#34;?&#34;,default = 10)
-
-    #p.add_argument(&#34;echo&#34;, help= &#34;prints out your input&#34;)
-
-args = p.parse_args()
-
-#If LISE++ is not open
-if args.first_time:
-    print(&#34;meow&#34;)
-    _open = False
-
-#If LISE++ is open already
-if args.not_first_time:
-    print(&#34;bark&#34;)
-    _open = True
-
-iso_start =  args.isotope_start
-iso_end = args.isotope_end
-wedge_start = args.wedge_range_start
-wedge_end = args.wedge_range_end
-FP_slit_width= args.FP_width
-
-#if the &#39;-v&#39; is called on terminal
-if args.verbose:
-    print(f&#34;Starting isotope: {args.isotope_start}\nEnding isotope: {args.isotope_end}\n&#34;)
-    print(f&#34;Starting wedge thickness: {args.wedge_range_start}\nEnding wedge thickness: {args.wedge_range_end}\n&#34;)
-    print(f&#34;The Focal Plane slit width is {FP_slit_width}&#34;)
-else:
-    print(f&#34;{args.isotope_start}\n{args.isotope_end}&#34;)
-    print(f&#34;{args.wedge_range_start}\n{args.wedge_range_end}&#34;)
-    print(f&#34;{args.FP_width}&#34;)
-&#34;&#34;&#34;
-
 def start_and_open():
     &#34;&#34;&#34;Summary.
 
@@ -161,7 +79,7 @@ def start_and_open():
         x, y = pag.center(pag.locateOnScreen(&#34;images/LISE++_2.png&#34;))
         pag.moveTo(x, y)
     pag.doubleClick()
-    time.sleep(2.5)
+    time.sleep(5)
     pag.moveTo(18, 44)  # file
     pag.doubleClick()
     pag.dragTo(112, 257, .5)  # configuration
@@ -169,12 +87,12 @@ def start_and_open():
     pag.moveTo(825, 251)  # load
     pag.click(interval=1)
     pag.moveTo(154, 326)  # textbox
-    pag.click(interval=.5)
+    pag.click(interval=1)
     pag.write(&#34;NSCL&#34;)
     pag.moveTo(471, 323)  # Open button
-    pag.click()
+    pag.click(interval=1)
     pag.moveTo(95, 213)  # A1900 file
-    pag.click()
+    pag.click(interval=1)
     pag.moveTo(471, 323)  # Open button
     pag.click()
     return FP_slit_width, isotope_start, isotope_end, wedge_range_list
@@ -210,97 +128,96 @@ def main(_open_):
         isotope_end,
         wedge_range)
 
-if __name__ == &#34;__main__&#34;:
-    main(_open)
 
-#main(_open)</code></pre>
+
+
+if __name__ == &#34;__main__&#34;:
+
+    #list of isotopes that are currently allowed 
+    isotopes = [&#39;Mg_32&#39;,&#39;Mg_33&#39;,&#39;Mg_34&#39;,&#39;Mg_35&#39;,&#39;Mg_36&#39;,&#39;Mg_37&#39;,&#39;Mg_38&#39;,&#39;Mg_40&#39;]
+
+
+    #Here we create the parser
+    #the input for the parser comes from input given to auto_4_lise.py on terminal
+    p = ap.ArgumentParser(formatter_class=ap.RawDescriptionHelpFormatter,
+            description=textwrap.dedent(&#39;&#39;&#39;\
+                    Useful Information 
+            ----------------------------------
+                The range of Magnesium (Mg) isotopes that are currently 
+                allowed are betwen Mg_32 - Mg_40 (excluding Mg_39).
+                
+                If no starting or ending Mg isotope is 
+                specified, default values are:
+                
+                isotope_start=&#39;Mg_32&#39;
+                isotope_start=&#39;Mg_40&#39;
+                
+                Enter the Focal Plane (FP) slit distance as an integer.
+                This value is in milimeters.
+
+                Two input values are required to specify the start and end 
+                of the different values of the wedge thickness range. 
+
+                The order of input to the parser goes as follows:
+
+                If LISE++ is not open, place the &#39;-f&#39; to tell the parser it is the &#39;first time&#39;
+
+                    -f isotope_start isotope_end wedge_range_start wedge_range_end FP_width -v
+
+                If LISE++ is already open, place the &#39;-nf&#39; to tell the parser it is &#39;not the first time&#39;
+                    -nf isotope_start isotope_end wedge_range_start wedge_range_end FP_width -v
+                
+            &#39;&#39;&#39;))
+        
+    #Optional arguments
+    p.add_argument(&#34;-v&#34;,&#34;--verbose&#34;,action=&#34;store_true&#34;,help=&#34;Prints input from user in a verbose manner.&#34;)
+    p.add_argument(&#34;-f&#34;,&#34;--first_time&#34;,action=&#34;store_true&#34;,help=&#34;First time opening LISE++ optional argument&#34;,default=False)
+    p.add_argument(&#34;-nf&#34;,&#34;--not_first_time&#34;,action=&#34;store_true&#34;,help=&#34;Not first time opening LISE++ optional argument&#34;,default=False)
+
+    #Positional arguments 
+    p.add_argument(&#34;isotope_start&#34;,type=str,help=&#34;Isotope to begin with.&#34;,nargs=&#34;?&#34;,default=&#34;Mg_32&#34;,choices = isotopes)
+    p.add_argument(&#34;isotope_end&#34;,type=str,help=&#34;Isotope to end with.&#34;,nargs=&#34;?&#34;,default=&#34;Mg_40&#34;,choices = isotopes)
+    p.add_argument(&#34;wedge_range_start&#34;, type = int, help = &#34;Starting value for wedge thickness at I2&#34;,
+            nargs=&#34;?&#34;,default = 2300)
+    p.add_argument(&#34;wedge_range_end&#34;, type = int, help = &#34;Ending value for wedge thickness at I2&#34;,
+            nargs=&#34;?&#34;,default = 3100)
+    p.add_argument(&#34;FP_width&#34;, type = int, help = &#34;Width for the Focal Plane (FP) in mm.&#34;,
+            nargs=&#34;?&#34;,default = 10)
+
+        #p.add_argument(&#34;echo&#34;, help= &#34;prints out your input&#34;)
+
+    args = p.parse_args()
+
+    _open = False
+    #If LISE++ is not open
+    if args.first_time:
+        _open = False
+
+    #If LISE++ is open already
+    if args.not_first_time:
+        _open = True
+
+    iso_start =  args.isotope_start
+    iso_end = args.isotope_end
+    wedge_start = args.wedge_range_start
+    wedge_end = args.wedge_range_end
+    FP_slit_width= args.FP_width
+
+    #if the &#39;-v&#39; is called on terminal
+    if args.verbose:
+        print(f&#34;Starting isotope: {args.isotope_start}\nEnding isotope: {args.isotope_end}\n&#34;)
+        print(f&#34;Starting wedge thickness: {args.wedge_range_start}\nEnding wedge thickness: {args.wedge_range_end}\n&#34;)
+        print(f&#34;The Focal Plane slit width is {FP_slit_width}&#34;)
+    else:
+        print(f&#34;{args.isotope_start}\n{args.isotope_end}&#34;)
+        print(f&#34;{args.wedge_range_start}\n{args.wedge_range_end}&#34;)
+        print(f&#34;{args.FP_width}&#34;)
+    main(_open)</code></pre>
 </details>
 </section>
 <section>
 </section>
 <section>
-<h2 class="section-title" id="header-variables">Global variables</h2>
-<dl>
-<dt id="nuclear_gamma_tracker.main_start.isotopes"><code class="name">var <span class="ident">isotopes</span></code></dt>
-<dd>
-<div class="desc"><h1 id="here-we-create-the-parser">Here we create the parser</h1>
-<h1 id="the-input-for-the-parser-comes-from-input-given-to-auto_4_lisepy-on-terminal">the input for the parser comes from input given to auto_4_lise.py on terminal</h1>
-<p>p = ap.ArgumentParser(formatter_class=ap.RawDescriptionHelpFormatter,
-description=textwrap.dedent('''
-Useful Information
-----------------------------------
-The range of Magnesium (Mg) isotopes that are currently
-allowed are betwen Mg_32 - Mg_40 (excluding Mg_39).</p>
-<pre><code>         If no starting or ending Mg isotope is 
-         specified, default values are:
-
-         isotope_start='Mg_32'
-         isotope_start='Mg_40'
-
-         Enter the Focal Plane (FP) slit distance as an integer.
-         This value is in milimeters.
-
-         Two input values are required to specify the start and end 
-         of the different values of the wedge thickness range.
-
-         The order of input to the parser goes as follows:
-
-         If LISE++ is not open, place the '-f' to tell the parser it is the 'first time'
-
-            -f isotope_start isotope_end wedge_range_start wedge_range_end FP_width -v
-
-         If LISE++ is already open, place the '-nf' to tell the parser it is 'not the first time'
-            -nf isotope_start isotope_end wedge_range_start wedge_range_end FP_width -v
-
-     '''))
-</code></pre>
-<h1 id="optional-arguments">Optional arguments</h1>
-<p>p.add_argument("-v","&ndash;verbose",action="store_true",help="Prints input from user in a verbose manner.")
-p.add_argument("-f","&ndash;first_time",action="store_true",help="First time opening LISE++ optional argument",default=False)
-p.add_argument("-nf","&ndash;not_first_time",action="store_true",help="Not first time opening LISE++ optional argument",default=False)</p>
-<h1 id="positional-arguments">Positional arguments</h1>
-<p>p.add_argument("isotope_start",type=str,help="Isotope to begin with.",nargs="?",default="Mg_32",choices = isotopes)
-p.add_argument("isotope_end",type=str,help="Isotope to end with.",nargs="?",default="Mg_40",choices = isotopes)
-p.add_argument("wedge_range_start", type = int, help = "Starting value for wedge thickness at I2",
-nargs="?",default = 2300)
-p.add_argument("wedge_range_end", type = int, help = "Ending value for wedge thickness at I2",
-nargs="?",default = 3100)
-p.add_argument("FP_width", type = int, help = "Width for the Focal Plane (FP) in mm.",
-nargs="?",default = 10)</p>
-<pre><code>#p.add_argument("echo", help= "prints out your input")
-</code></pre>
-<p>args = p.parse_args()</p>
-<h1 id="if-lise-is-not-open">If LISE++ is not open</h1>
-<p>if args.first_time:
-print("meow")
-_open = False</p>
-<h1 id="if-lise-is-open-already">If LISE++ is open already</h1>
-<p>if args.not_first_time:
-print("bark")
-_open = True</p>
-<p>iso_start =
-args.isotope_start
-iso_end = args.isotope_end
-wedge_start = args.wedge_range_start
-wedge_end = args.wedge_range_end
-FP_slit_width= args.FP_width</p>
-<h1 id="if-the-v-is-called-on-terminal">if the '-v' is called on terminal</h1>
-<p>if args.verbose:
-print(f"Starting isotope: {args.isotope_start}
-Ending isotope: {args.isotope_end}
-")
-print(f"Starting wedge thickness: {args.wedge_range_start}
-Ending wedge thickness: {args.wedge_range_end}
-")
-print(f"The Focal Plane slit width is {FP_slit_width}")
-else:
-print(f"{args.isotope_start}
-{args.isotope_end}")
-print(f"{args.wedge_range_start}
-{args.wedge_range_end}")
-print(f"{args.FP_width}")</p></div>
-</dd>
-</dl>
 </section>
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
@@ -389,7 +306,7 @@ your desktop (very specific at the moment).</p></div>
         x, y = pag.center(pag.locateOnScreen(&#34;images/LISE++_2.png&#34;))
         pag.moveTo(x, y)
     pag.doubleClick()
-    time.sleep(2.5)
+    time.sleep(5)
     pag.moveTo(18, 44)  # file
     pag.doubleClick()
     pag.dragTo(112, 257, .5)  # configuration
@@ -397,12 +314,12 @@ your desktop (very specific at the moment).</p></div>
     pag.moveTo(825, 251)  # load
     pag.click(interval=1)
     pag.moveTo(154, 326)  # textbox
-    pag.click(interval=.5)
+    pag.click(interval=1)
     pag.write(&#34;NSCL&#34;)
     pag.moveTo(471, 323)  # Open button
-    pag.click()
+    pag.click(interval=1)
     pag.moveTo(95, 213)  # A1900 file
-    pag.click()
+    pag.click(interval=1)
     pag.moveTo(471, 323)  # Open button
     pag.click()
     return FP_slit_width, isotope_start, isotope_end, wedge_range_list</code></pre>
@@ -424,11 +341,6 @@ your desktop (very specific at the moment).</p></div>
 <li><code><a title="nuclear_gamma_tracker" href="index.html">nuclear_gamma_tracker</a></code></li>
 </ul>
 </li>
-<li><h3><a href="#header-variables">Global variables</a></h3>
-<ul class="">
-<li><code><a title="nuclear_gamma_tracker.main_start.isotopes" href="#nuclear_gamma_tracker.main_start.isotopes">isotopes</a></code></li>
-</ul>
-</li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
 <li><code><a title="nuclear_gamma_tracker.main_start.main" href="#nuclear_gamma_tracker.main_start.main">main</a></code></li>
@@ -440,7 +352,7 @@ your desktop (very specific at the moment).</p></div>
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.1</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
 </footer>
 </body>
 </html>
