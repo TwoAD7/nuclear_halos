@@ -66,7 +66,7 @@ If you do not have pip installed, proceed to the following link to donwload pip:
  - `main_start.py`	
  	- The function to be called in the top-most directory on terminal to begin the process. The command to run the script is as follows:
 
- 		`python -m nuclear_gamma_tracker.auto_4_lise.py -FLAG <isotope_start> <isotope_end> <wedge_start> <wedge_end> <FP_width> -v`
+ 		`python -m nuclear_gamma_tracker.main_start.py -FLAG <isotope_start> <isotope_end> <wedge_start> <wedge_end> <FP_width> -v`
 
  			- '-FLAG'	   : Flag that tells the script if LISE++ is open or not. These have to be specified. You have two options:
  								`-f` : It is the first time you are opening LISE++

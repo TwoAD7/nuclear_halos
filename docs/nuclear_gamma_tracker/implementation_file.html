@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.9.1" />
+<meta name="generator" content="pdoc 0.9.2" />
 <title>nuclear_gamma_tracker.implementation_file API documentation</title>
 <meta name="description" content="Summary …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
@@ -58,7 +58,6 @@ import csv
 import os
 import platform
 import pyautogui as pag
-import matplotlib.pyplot as plt
 import pyperclip as pc
 import pandas as pd
 
@@ -168,7 +167,7 @@ def set_projectile(projectile_name, energy, intensity, A):
     &#34;&#34;&#34;
     print(&#34;Setting projectile...&#34;)
     pag.moveTo(16, 124)  # projectile button
-    pag.click()
+    pag.click(interval=.5)
     pag.moveTo(262, 213)  # element text box
     pag.doubleClick()
     pag.write(projectile_name)
@@ -182,7 +181,7 @@ def set_projectile(projectile_name, energy, intensity, A):
     pag.doubleClick()
     pag.write(str(intensity))
     pag.moveTo(269, 445)
-    pag.click()
+    pag.click(interval=.5)
     time.sleep(1)
 
 # to set the Focal Plane (FP) slits
@@ -370,7 +369,7 @@ def get_intensity(isotope, beam_element, beam_mass):
         _intensity = _intensity.split()
         # intensity value
         print(
-            f&#34;The intensity for {isotope} with {beam_element} {beam_mass} is {_intensity[4]}.&#34;)
+            f&#34;The intensity for {isotope} with {beam_element} {beam_mass} is {_intensity[4]} pps.&#34;)
         return _intensity[4], flag
 
 # retrieve the transmission in X-space
@@ -443,7 +442,7 @@ def purity_percent(fragment_isotope):
     # df =
     # pd.read_csv(&#34;C:\\Users\Owner\Desktop\pps_junk.txt&#34;,error_bad_lines=False)
     # #path to temporary file. NEED TO UPDATE
-    print(f&#34;Size of data frame is {df.size}.&#34;)
+    #print(f&#34;Size of data frame is {df.size}.&#34;)
     _string = df.iloc[5, 0]  # get the pps for isotope in question
     _string = _string.split()
     isotope_fragment = _string[13]  # grab pps value
@@ -615,7 +614,7 @@ def isotope_tuning_values(
             #FP_x_space_transmission = FP_slit_X_transmission_percent()
             # pass in the name of the fragment isotope
             _purity_percent = purity_percent(iso[0] + iso[1])
-            print(f&#34;Purity is {_purity_percent}&#34;)
+            print(f&#34;Purity is {_purity_percent} %&#34;)
             df.loc[count] = [
                 29.5,
                 frag_intensity,
@@ -628,10 +627,23 @@ def isotope_tuning_values(
             wedge_thickness = wedge_thickness + 100
             print(f&#34;Have gone through {count} iterations&#34;)
             print(df)
-        df.to_csv(
-            f&#34;{iso[0]}_{iso[1]}_finetune_{FP_slit_width}_data_LISE++.csv&#34;)
-        print(
-            f&#34;File saved as: {iso[0]}_{iso[1]}_finetune_{FP_slit_width}_data_LISE++.csv&#34;)
+
+        path = os.path.join(&#34;.&#34;,&#34;data_files&#34;)
+        directory_check = os.path.isdir(path)
+        if directory_check == True:
+            print(&#34;Hey&#34;)
+            df.to_csv(f&#34;./{path}/{iso[0]}_{iso[1]}_finetune_{FP_slit_width}_data_LISE++.csv&#34;)
+            print(f&#34;File saved in {path} as: {iso[0]}_{iso[1]}_finetune_{FP_slit_width}_data_LISE++.csv&#34;)
+        if directory_check == False:
+            print(f&#34;Creating the following directory {path}&#34;)
+            os.mkdir(path) 
+            df.to_csv(f&#34;./{path}/{iso[0]}_{iso[1]}_finetune_{FP_slit_width}_data_LISE++.csv&#34;)
+            print(f&#34;File saved in {path} as: {iso[0]}_{iso[1]}_finetune_{FP_slit_width}_data_LISE++.csv&#34;)
+
+        #df.to_csv(
+         #   f&#34;./{path}/{iso[0]}_{iso[1]}_finetune_{FP_slit_width}_data_LISE++.csv&#34;)
+        #print(
+        #    f&#34;File saved as: {iso[0]}_{iso[1]}_finetune_{FP_slit_width}_data_LISE++.csv&#34;)
         del df
         if dic[&#39;isotope&#39;] == isotope_end:
             print(f&#34;YOU HAVE REACHED {isotope_end}!&#34;)
@@ -778,7 +790,7 @@ for the beam element.</p></div>
         _intensity = _intensity.split()
         # intensity value
         print(
-            f&#34;The intensity for {isotope} with {beam_element} {beam_mass} is {_intensity[4]}.&#34;)
+            f&#34;The intensity for {isotope} with {beam_element} {beam_mass} is {_intensity[4]} pps.&#34;)
         return _intensity[4], flag</code></pre>
 </details>
 </dd>
@@ -978,7 +990,7 @@ has already been determined that the best beam is Ca 48.</p></div>
             #FP_x_space_transmission = FP_slit_X_transmission_percent()
             # pass in the name of the fragment isotope
             _purity_percent = purity_percent(iso[0] + iso[1])
-            print(f&#34;Purity is {_purity_percent}&#34;)
+            print(f&#34;Purity is {_purity_percent} %&#34;)
             df.loc[count] = [
                 29.5,
                 frag_intensity,
@@ -991,10 +1003,23 @@ has already been determined that the best beam is Ca 48.</p></div>
             wedge_thickness = wedge_thickness + 100
             print(f&#34;Have gone through {count} iterations&#34;)
             print(df)
-        df.to_csv(
-            f&#34;{iso[0]}_{iso[1]}_finetune_{FP_slit_width}_data_LISE++.csv&#34;)
-        print(
-            f&#34;File saved as: {iso[0]}_{iso[1]}_finetune_{FP_slit_width}_data_LISE++.csv&#34;)
+
+        path = os.path.join(&#34;.&#34;,&#34;data_files&#34;)
+        directory_check = os.path.isdir(path)
+        if directory_check == True:
+            print(&#34;Hey&#34;)
+            df.to_csv(f&#34;./{path}/{iso[0]}_{iso[1]}_finetune_{FP_slit_width}_data_LISE++.csv&#34;)
+            print(f&#34;File saved in {path} as: {iso[0]}_{iso[1]}_finetune_{FP_slit_width}_data_LISE++.csv&#34;)
+        if directory_check == False:
+            print(f&#34;Creating the following directory {path}&#34;)
+            os.mkdir(path) 
+            df.to_csv(f&#34;./{path}/{iso[0]}_{iso[1]}_finetune_{FP_slit_width}_data_LISE++.csv&#34;)
+            print(f&#34;File saved in {path} as: {iso[0]}_{iso[1]}_finetune_{FP_slit_width}_data_LISE++.csv&#34;)
+
+        #df.to_csv(
+         #   f&#34;./{path}/{iso[0]}_{iso[1]}_finetune_{FP_slit_width}_data_LISE++.csv&#34;)
+        #print(
+        #    f&#34;File saved as: {iso[0]}_{iso[1]}_finetune_{FP_slit_width}_data_LISE++.csv&#34;)
         del df
         if dic[&#39;isotope&#39;] == isotope_end:
             print(f&#34;YOU HAVE REACHED {isotope_end}!&#34;)
@@ -1086,7 +1111,7 @@ passinng through the FP_PIN (focal plane Particle in) detector.</p></div>
     # df =
     # pd.read_csv(&#34;C:\\Users\Owner\Desktop\pps_junk.txt&#34;,error_bad_lines=False)
     # #path to temporary file. NEED TO UPDATE
-    print(f&#34;Size of data frame is {df.size}.&#34;)
+    #print(f&#34;Size of data frame is {df.size}.&#34;)
     _string = df.iloc[5, 0]  # get the pps for isotope in question
     _string = _string.split()
     isotope_fragment = _string[13]  # grab pps value
@@ -1273,7 +1298,7 @@ intensity, A.</p>
     &#34;&#34;&#34;
     print(&#34;Setting projectile...&#34;)
     pag.moveTo(16, 124)  # projectile button
-    pag.click()
+    pag.click(interval=.5)
     pag.moveTo(262, 213)  # element text box
     pag.doubleClick()
     pag.write(projectile_name)
@@ -1287,7 +1312,7 @@ intensity, A.</p>
     pag.doubleClick()
     pag.write(str(intensity))
     pag.moveTo(269, 445)
-    pag.click()
+    pag.click(interval=.5)
     time.sleep(1)</code></pre>
 </details>
 </dd>
@@ -1407,7 +1432,7 @@ intensity, A.</p>
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.1</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
 </footer>
 </body>
 </html>
